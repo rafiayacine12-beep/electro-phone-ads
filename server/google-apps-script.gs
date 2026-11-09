@@ -21,7 +21,7 @@ function doPost(e) {
       var sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Orders") || SpreadsheetApp.getActiveSpreadsheet().insertSheet("Orders");
       if (sh.getLastRow() === 0) sh.appendRow(COLS);
       // prefix with ' so Sheets never runs a value as a formula
-      sh.appendRow(COLS.map(function (k) { var v = d[k] == null ? "" : d[k]; return typeof v === "string" && /^[=+\-@]/.test(v) ? "'" + v : v; }));
+      sh.appendRow(COLS.map(function (k) { var v = d[k] == null ? "" : d[k]; if (k === "phone" && v) return "'" + v; // keep the leading 0 return typeof v === "string" && /^[=+\-@]/.test(v) ? "'" + v : v; }));
     } finally { lock.releaseLock(); }
     return out({ ok: true });
   } catch (err) {
