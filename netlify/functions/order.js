@@ -38,7 +38,6 @@ function validate(body) {
   if (o.name.length < 3) errors.push("name");
   if (!o.phone) errors.push("phone");
   if (o.city.length < 2) errors.push("city");
-  if (o.address.length < 8) errors.push("address");
   if (!Number.isInteger(o.qty) || o.qty < 1 || o.qty > MAX_QTY) errors.push("quantity");
   o.unit_price = UNIT_PRICE; o.subtotal = o.qty * UNIT_PRICE; o.delivery_fee = 0; o.total = o.subtotal;
   return { o, errors };

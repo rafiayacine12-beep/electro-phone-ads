@@ -79,7 +79,7 @@
   function orderText(o) {
     return [
       "🛒 طلب جديد — " + PRODUCT.name,
-      "الاسم: " + o.name, "الهاتف: " + o.phone, "المدينة: " + o.city, "العنوان: " + o.address,
+      "الاسم: " + o.name, "الهاتف: " + o.phone, "المدينة: " + o.city, o.address ? "العنوان: " + o.address : null,
       o.notes ? "ملاحظة: " + o.notes : null,
       "العدد: " + qtyLabel(o.qty) + " (" + (o.qty * 2) + " مجموعات)",
       "الثمن الإجمالي: " + dh(o.total), "التوصيل: مجاني", "الدفع: عند الاستلام"
@@ -222,7 +222,7 @@
     sticky.setAttribute("aria-hidden", show ? "false" : "true");
     stickyCta.tabIndex = show ? 0 : -1;
     var floatOk = st.heroGone && !st.orderSeen && !st.modal && !st.typing; // never over the hero CTAs or the form
-    fab.classList.toggle("hide", !floatOk);
+    if (fab) fab.classList.toggle("hide", !floatOk);
     if (launcher) launcher.classList.toggle("hide", !(floatOk && st.promoSeen));
   }
   if (hasIO) {
@@ -391,7 +391,7 @@
     if (name === "name") ok = validName(v);
     else if (name === "phone") ok = !!normPhone(v);
     else if (name === "city") ok = !!(exactCity(v) || cityCustom === cleanText(v, 60) && cityCustom);
-    else if (name === "address") ok = cleanText(v, 250).length >= 8;
+    else if (name === "address") ok = true; // optional
     else ok = true;
     var f = fieldEl(name), wasBad = f.classList.contains("bad");
     f.classList.toggle("valid", ok);
@@ -446,8 +446,8 @@
   cityIn.addEventListener("blur", function () { setTimeout(function () { openList(false); var ex = exactCity(cityIn.value); if (ex) cityIn.value = ex; if (cityIn.value.trim()) check("city", true); }, 120); });
 
   /* location: suggestion only, needs explicit permission, never auto-submitted */
-  if (!("geolocation" in navigator)) locBtn.hidden = true;
-  locBtn.addEventListener("click", function () {
+  if (locBtn && !("geolocation" in navigator)) locBtn.hidden = true;
+  if (locBtn) locBtn.addEventListener("click", function () {
     locMsg.textContent = "كنقلبو على الموقع…";
     navigator.geolocation.getCurrentPosition(function (pos) {
       var c = nearestCity(pos.coords.latitude, pos.coords.longitude);
@@ -463,8 +463,8 @@
   });
 
   /* quantity cards + summary */
-  function getQty() { var r = $('input[name="qty"]:checked', form); return r ? +r.value : 1; }
-  function setQty(q) { var r = $('input[name="qty"][value="' + q + '"]', form); if (r) { r.checked = true; refresh(); } }
+  function getQty() { var r = $('input[name="qty"]:checked'); return r ? +r.value : 1; }
+  function setQty(q) { var r = $('input[name="qty"][value="' + q + '"]'); if (r) { r.checked = true; refresh(); } }
   var shownTotal = PRICE;
   function tween(el, from, to) {
     if (reduce || from === to) { el.textContent = to; return; }
@@ -473,11 +473,13 @@
   }
   function refresh() {
     var q = getQty(), t = total(q);
-    $$(".qc", form).forEach(function (l) { l.classList.toggle("sel", $("input", l).checked); });
+    $$(".qc").forEach(function (l) { l.classList.toggle("sel", $("input", l).checked); });
     $("#s-qty").textContent = qtyLabel(q) + " (" + q * 2 + " مجموعات)";
-    tween($("#s-sub"), shownTotal, t); tween($("#s-tot"), shownTotal, t); shownTotal = t;
+    var ql = $("#qp-label"); if (ql) { ql.textContent = qtyLabel(q); $("#qp-sub").textContent = q * 2 + " مجموعات كاملة"; $("#qp-price").textContent = t; }
+    var sub = $("#s-sub"); if (sub) tween(sub, shownTotal, t);
+    tween($("#s-tot"), shownTotal, t); shownTotal = t;
   }
-  $$('input[name="qty"]', form).forEach(function (r) { r.addEventListener("change", refresh); });
+  $$('input[name="qty"]').forEach(function (r) { r.addEventListener("change", refresh); });
   refresh();
 
   /* submit */
@@ -489,7 +491,7 @@
   function showErr(msg) { formErr.textContent = msg; formErr.hidden = !msg; if (msg) formErr.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "center" }); }
   function readOrder() {
     var el = form.elements; // form.name is the form's own attribute, so read via elements
-    var ok = ["name", "phone", "city", "address"].map(function (n) { return check(n, true); });
+    var ok = ["name", "phone", "city"].map(function (n) { return check(n, true); });
     if (ok.indexOf(false) > -1) {
       var firstBad = $(".fl.bad", form);
       $$(".fl.bad", form).forEach(function (f) { f.classList.remove("shake"); void f.offsetWidth; f.classList.add("shake"); });
@@ -501,7 +503,7 @@
     return {
       name: cleanText(el.namedItem("name").value, 80), phone: normPhone(el.namedItem("phone").value),
       city: exactCity(el.namedItem("city").value) || cleanText(el.namedItem("city").value, 60),
-      address: cleanText(el.namedItem("address").value, 250), notes: cleanText(el.namedItem("notes").value, 200),
+      address: cleanText(el.namedItem("address").value, 250), notes: el.namedItem("notes") ? cleanText(el.namedItem("notes").value, 200) : "",
       qty: q, total: total(q)
     };
   }
@@ -615,9 +617,9 @@
     msgs.appendChild(ty); msgs.scrollTop = msgs.scrollHeight;
     setTimeout(function () { ty.remove(); var r = botAnswer(q); bubble(r.a, "bot", r.act); botBusy = false; }, reduce ? 0 : 650);
   }
-  SUGGESTIONS.forEach(function (s) { var b = d.createElement("button"); b.type = "button"; b.textContent = s; b.addEventListener("click", function () { ask(s); }); sugg.appendChild(b); });
-  askF.addEventListener("submit", function (e) { e.preventDefault(); ask(askIn.value); askIn.value = ""; });
-  $("#sh-assistant").addEventListener("sheet:open", function () { if (!greeted) { greeted = true; bubble("سلام! 👋 مرحبا بيك، واش بغيتي تعرف أكثر على عرض جوج سماعات؟", "bot"); } });
+  if (msgs) SUGGESTIONS.forEach(function (s) { var b = d.createElement("button"); b.type = "button"; b.textContent = s; b.addEventListener("click", function () { ask(s); }); sugg.appendChild(b); });
+  if (askF) askF.addEventListener("submit", function (e) { e.preventDefault(); ask(askIn.value); askIn.value = ""; });
+  if (msgs) $("#sh-assistant").addEventListener("sheet:open", function () { if (!greeted) { greeted = true; bubble("سلام! 👋 مرحبا بيك، واش بغيتي تعرف أكثر على عرض جوج سماعات؟", "bot"); } });
 
   root.__ep = { openSheet: openSheet, closeSheet: closeSheet, ask: ask, setQty: setQty, getQty: getQty, attr: function () { return ATTR; } }; // QA hooks
 })(typeof window !== "undefined" ? window : this);
