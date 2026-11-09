@@ -234,7 +234,7 @@
   d.addEventListener("visibilitychange", function () { d.documentElement.classList.toggle("paused", d.hidden); });
 
   /* --- modal / bottom-sheet manager (one at a time) --- */
-  var scrim = $("#scrim"), main = $("#main"), current = null, opener = null, scrollY0 = 0;
+  var scrim = $("#scrim"), main = $("#main"), current = null, opener = null, parent = null, scrollY0 = 0;
   var FOCUSABLE = "a[href],button:not([disabled]),input,textarea,[tabindex]:not([tabindex='-1'])";
   function setInert(on) {
     [main, sticky, fab, launcher].forEach(function (el) { if (!el) return; if (on) { el.setAttribute("inert", ""); el.setAttribute("aria-hidden", "true"); } else { el.removeAttribute("inert"); if (el !== sticky) el.removeAttribute("aria-hidden"); } });
@@ -250,7 +250,8 @@
   }
   function openSheet(id, from) {
     var el = d.getElementById("sh-" + id); if (!el) return;
-    if (current) closeSheet(true, true);
+    if (current && el.hasAttribute("data-over")) { parent = { el: current, opener: opener }; current.setAttribute("inert", ""); }
+    else if (current) closeSheet(true, true);
     opener = from || d.activeElement; current = el;
     el.hidden = false; scrim.hidden = false;
     if (!d.body.classList.contains("lock")) lockScroll(true);
@@ -261,12 +262,14 @@
   }
   function closeSheet(instant, keepLock) {
     if (!current) return;
-    var el = current; current = null;
-    el.classList.remove("on"); scrim.classList.remove("on"); el.style.removeProperty("--drag");
+    var el = current, back = parent, focusTo = opener; current = null; parent = null;
+    el.classList.remove("on"); el.style.removeProperty("--drag");
+    if (back) { current = back.el; opener = back.opener; current.removeAttribute("inert"); } // return to the sheet underneath
+    else scrim.classList.remove("on");
     var done = function () { if (current !== el) el.hidden = true; if (!current) scrim.hidden = true; };
     if (instant || reduce) done(); else setTimeout(done, 320);
-    if (!keepLock) { lockScroll(false); st.modal = false; setInert(false); }
-    if (opener && opener.focus && !instant && d.contains(opener)) opener.focus({ preventScroll: true });
+    if (!back && !keepLock) { lockScroll(false); st.modal = false; setInert(false); }
+    if (focusTo && focusTo.focus && !instant && d.contains(focusTo)) focusTo.focus({ preventScroll: true });
     el.dispatchEvent(new CustomEvent("sheet:close"));
   }
   scrim.addEventListener("click", function () { closeSheet(); });
@@ -289,13 +292,11 @@
     g.addEventListener("pointerup", end); g.addEventListener("pointercancel", end);
   });
 
-  function scrollToForm() { $("#form").scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" }); }
-  function goOrder(e) {
+  function goOrder(e) { // every "order" button opens the order form popup
     if (e) e.preventDefault();
-    var wasOpen = !!current; closeSheet(true);
-    setTimeout(scrollToForm, wasOpen ? 40 : 0);
+    openSheet("order", e && e.currentTarget);
   }
-  $$("[data-goto-order]").forEach(function (a) { a.addEventListener("click", goOrder); });
+  $$('[data-goto-order],a[href="#order"]').forEach(function (a) { a.addEventListener("click", goOrder); });
   $$("[data-open]").forEach(function (b) { b.addEventListener("click", function () { openSheet(b.getAttribute("data-open"), b); }); });
 
   /* --- cinematic offer popup: auto once per session, then a launcher --- */
@@ -557,7 +558,7 @@
     form.hidden = true; done.hidden = false;
     done.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" }); done.focus({ preventScroll: true });
   }
-  $("#done-home").addEventListener("click", function (e) { e.preventDefault(); root.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" }); });
+  $("#done-home").addEventListener("click", function (e) { e.preventDefault(); closeSheet(); root.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" }); });
 
   form.addEventListener("submit", function (e) {
     e.preventDefault();

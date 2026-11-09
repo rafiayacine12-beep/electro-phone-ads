@@ -91,6 +91,14 @@ window.CONFIG = {
 .qc-imgs img{width:44px;height:44px;border-radius:10px;object-fit:cover;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.12)}
 .qc-imgs img+img{margin-inline-start:-22px}
 .q-free{margin:14px 0 !important;text-align:center;font-size:13px;font-weight:700;color:#065F46 !important;background:#ECFDF5;border-radius:12px;padding:8px}
+/* order form popup */
+.sheet.osheet{padding:0;max-height:94vh;max-height:94dvh;background:#FFF7F2}
+.osheet .grab{margin:10px auto 0}
+.o-top{position:sticky;top:0;height:0;z-index:4}
+.osheet .x{top:4px;inset-inline-end:12px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.osheet .order{padding:6px 16px calc(24px + var(--safe))}
+.osheet .order h2{padding-inline:44px}
+.sheet[inert]{filter:brightness(.6)}
 </style>
 </head>
 <body id="top">
@@ -122,7 +130,56 @@ window.CONFIG = {
   <a href="#order" class="btn btn-glow">اطلب العرض دابا <span class="arr" aria-hidden="true">←</span></a>
 </section>
 
-<!-- 14 ORDER FORM -->
+
+
+
+<section class="sec alt">
+  <h2>أسئلة</h2>
+  <div class="faq">
+    <details><summary>شنو كاين فالباك؟</summary><div><p>جوج مجموعات كاملة، كل وحدة فيها جوج سماعات وعلبة الشحن ديالها.</p></div></details>
+    <details><summary>واش خدامة مع Android و iPhone؟</summary><div><p>إيه، متوافقة مع جوج عبر Bluetooth.</p></div></details>
+    <details><summary>شحال كتدوم البطارية؟</summary><div><p>تقريباً 5–6 ساعات حسب الاستعمال.</p></div></details>
+    <details><summary>كيفاش نخلّص؟</summary><div><p>كتخلّص ملي توصلك الطلبية، والتوصيل مجاني.</p></div></details>
+  </div>
+</section>
+
+<section class="sec store" id="store" aria-labelledby="t16">
+  <h2 id="t16">معلومات المتجر</h2>
+  <dl class="sum">
+    <div><dt>المتجر</dt><dd>Electro Phone</dd></div>
+    <div><dt>الهاتف / واتساب</dt><dd><a href="tel:0716550591" dir="ltr">0716550591</a></dd></div>
+    <div><dt>البريد الإلكتروني</dt><dd><a href="mailto:electrophone@support.ma" dir="ltr">electrophone@support.ma</a></dd></div>
+    <div><dt>العنوان</dt><dd>الرباط، وسط المدينة</dd></div>
+    <div><dt>الثمن</dt><dd><bdi>179</bdi> درهم للباك</dd></div>
+    <div><dt>التوصيل</dt><dd>مجاني</dd></div>
+    <div><dt>الدفع</dt><dd>عند الاستلام</dd></div>
+  </dl>
+</section>
+
+<footer class="foot">
+  <nav aria-label="روابط مهمة" class="foot-links">
+    <a href="policies.html#contact">اتصل بنا</a>
+    <a href="policies.html#delivery">التوصيل والدفع</a>
+    <a href="policies.html#returns">الإرجاع والاستبدال</a>
+    <a href="policies.html#privacy">سياسة الخصوصية</a>
+    <a href="policies.html#terms">الشروط والأحكام</a>
+  </nav>
+  <p>© 2026 Electro Phone · جميع الحقوق محفوظة</p>
+</footer>
+</main>
+
+<!-- STICKY BAR -->
+<div class="sticky" id="sticky" aria-hidden="true">
+  <span class="st-pack">باك 2</span>
+  <b class="st-price">179 درهم</b>
+  <a href="#order" class="btn btn-glow" data-cta="sticky" tabindex="-1">اطلب العرض دابا</a>
+</div>
+
+
+<!-- ORDER FORM POPUP -->
+<div class="sheet osheet" id="sh-order" role="dialog" aria-modal="true" aria-labelledby="t14" hidden>
+  <div class="grab" aria-hidden="true"></div>
+  <div class="o-top"><button type="button" class="x" data-close aria-label="إغلاق">✕</button></div>
 <section class="sec order" id="order" aria-labelledby="t14">
   <h2 id="t14">كمّل طلبك دابا</h2>
   <p class="sub">💵 الدفع عند الاستلام · 🚚 التوصيل مجاني</p>
@@ -211,52 +268,9 @@ window.CONFIG = {
     <a class="btn btn-ghost" href="#top" id="done-home">العودة إلى الصفحة الرئيسية</a>
   </div>
 </section>
-
-
-<section class="sec alt">
-  <h2>أسئلة</h2>
-  <div class="faq">
-    <details><summary>شنو كاين فالباك؟</summary><div><p>جوج مجموعات كاملة، كل وحدة فيها جوج سماعات وعلبة الشحن ديالها.</p></div></details>
-    <details><summary>واش خدامة مع Android و iPhone؟</summary><div><p>إيه، متوافقة مع جوج عبر Bluetooth.</p></div></details>
-    <details><summary>شحال كتدوم البطارية؟</summary><div><p>تقريباً 5–6 ساعات حسب الاستعمال.</p></div></details>
-    <details><summary>كيفاش نخلّص؟</summary><div><p>كتخلّص ملي توصلك الطلبية، والتوصيل مجاني.</p></div></details>
-  </div>
-</section>
-
-<section class="sec store" id="store" aria-labelledby="t16">
-  <h2 id="t16">معلومات المتجر</h2>
-  <dl class="sum">
-    <div><dt>المتجر</dt><dd>Electro Phone</dd></div>
-    <div><dt>الهاتف / واتساب</dt><dd><a href="tel:0716550591" dir="ltr">0716550591</a></dd></div>
-    <div><dt>البريد الإلكتروني</dt><dd><a href="mailto:electrophone@support.ma" dir="ltr">electrophone@support.ma</a></dd></div>
-    <div><dt>العنوان</dt><dd>الرباط، وسط المدينة</dd></div>
-    <div><dt>الثمن</dt><dd><bdi>179</bdi> درهم للباك</dd></div>
-    <div><dt>التوصيل</dt><dd>مجاني</dd></div>
-    <div><dt>الدفع</dt><dd>عند الاستلام</dd></div>
-  </dl>
-</section>
-
-<footer class="foot">
-  <nav aria-label="روابط مهمة" class="foot-links">
-    <a href="policies.html#contact">اتصل بنا</a>
-    <a href="policies.html#delivery">التوصيل والدفع</a>
-    <a href="policies.html#returns">الإرجاع والاستبدال</a>
-    <a href="policies.html#privacy">سياسة الخصوصية</a>
-    <a href="policies.html#terms">الشروط والأحكام</a>
-  </nav>
-  <p>© 2026 Electro Phone · جميع الحقوق محفوظة</p>
-</footer>
-</main>
-
-<!-- STICKY BAR -->
-<div class="sticky" id="sticky" aria-hidden="true">
-  <span class="st-pack">باك 2</span>
-  <b class="st-price">179 درهم</b>
-  <a href="#order" class="btn btn-glow" data-cta="sticky" tabindex="-1">اطلب العرض دابا</a>
 </div>
 
-
-<div class="sheet qsheet" id="sh-qty" role="dialog" aria-modal="true" aria-labelledby="sh-qty-t" hidden>
+<div class="sheet qsheet" id="sh-qty" data-over role="dialog" aria-modal="true" aria-labelledby="sh-qty-t" hidden>
   <div class="grab" aria-hidden="true"></div>
   <button type="button" class="x" data-close aria-label="إغلاق">✕</button>
   <h3 id="sh-qty-t">شحال من باك بغيتي؟</h3>
