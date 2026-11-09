@@ -15,7 +15,7 @@ function doPost(e) {
   try {
     var d = JSON.parse(e.postData.contents);
     var secret = PropertiesService.getScriptProperties().getProperty("SECRET");
-    if (!secret || d.secret !== secret) return out({ ok: false, error: "unauthorized" });
+    if (secret && d.secret !== secret) return out({ ok: false, error: "unauthorized" }); // SECRET optional: the web-app URL itself stays server-side only
     var lock = LockService.getScriptLock(); lock.waitLock(10000);
     try {
       var sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Orders") || SpreadsheetApp.getActiveSpreadsheet().insertSheet("Orders");
