@@ -221,17 +221,25 @@ body,button,input,textarea,select,output{font-family:'Noto Kufi Arabic',system-u
   </div>
 </section>
 
-<section class="sec store reveal" id="store" aria-labelledby="t16">
-  <h2 id="t16">معلومات المتجر</h2>
-  <dl class="sum">
-    <div><dt>المتجر</dt><dd>Electro Phone</dd></div>
-    <div><dt>الهاتف / واتساب</dt><dd><a href="tel:0716550591" dir="ltr">0716550591</a></dd></div>
-    <div><dt>البريد الإلكتروني</dt><dd><a href="mailto:electrophone@support.ma" dir="ltr">electrophone@support.ma</a></dd></div>
-    <div><dt>العنوان</dt><dd>الرباط، وسط المدينة</dd></div>
-    <div><dt>الثمن</dt><dd><bdi>179</bdi> درهم للباك</dd></div>
-    <div><dt>التوصيل</dt><dd>مجاني</dd></div>
-    <div><dt>الدفع</dt><dd>عند الاستلام</dd></div>
-  </dl>
+<section class="sec store reveal" id="store">
+  <style>
+    .store-btn{display:block;text-align:center;padding:14px;border:2px solid currentColor;border-radius:12px;font-weight:700;cursor:pointer;list-style:none}
+    .store-btn::-webkit-details-marker{display:none}
+    .store-btn::after{content:none}
+    .store details[open] .sum{margin-top:16px}
+  </style>
+  <details>
+    <summary class="store-btn">ℹ️ معلومات المتجر</summary>
+    <dl class="sum">
+      <div><dt>المتجر</dt><dd>Electro Phone</dd></div>
+      <div><dt>الهاتف / واتساب</dt><dd><a href="tel:0716550591" dir="ltr">0716550591</a></dd></div>
+      <div><dt>البريد الإلكتروني</dt><dd><a href="mailto:electrophone@support.ma" dir="ltr">electrophone@support.ma</a></dd></div>
+      <div><dt>العنوان</dt><dd>الرباط، وسط المدينة</dd></div>
+      <div><dt>الثمن</dt><dd><bdi>179</bdi> درهم للباك</dd></div>
+      <div><dt>التوصيل</dt><dd>مجاني</dd></div>
+      <div><dt>الدفع</dt><dd>عند الاستلام</dd></div>
+    </dl>
+  </details>
 </section>
 
 <footer class="foot">
