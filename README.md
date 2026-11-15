@@ -34,7 +34,7 @@
 ---
 
 ## 2. النشر الآمن (Netlify)
-1. **Google Sheet**: دير شيت جديد → Extensions → Apps Script → لصق `server/google-apps-script.gs` → Script properties: `SECRET` → Deploy as Web app (Execute as: Me، Access: Anyone) → نسخ الرابط.
+1. **Google Sheet**: دير شيت جديد → Extensions → Apps Script → لصق `server/google-apps-script.gs` → تشغيل الدالة `setup` مرة وحدة (كتصاوب الشيت Orders + Resume) → Script properties: `SECRET` → Deploy as Web app (Execute as: Me، Access: Anyone) → نسخ الرابط.
 2. **Netlify**: ارفع الدوسي كامل (Git ولا `netlify deploy`). Netlify Drop ما كيدعمش Functions — استعمل Git ولا CLI.
 3. زيد متغيرات البيئة (الجدول ب) ومن بعد **Redeploy**.
 4. فـ `index.html` حط `orderEndpoint: "/.netlify/functions/order"` وIDs ديال البيكسلات.
