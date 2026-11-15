@@ -347,3 +347,4 @@ html:not(.no-js) .ep-rv{--p:0}
 .s-top .t2{animation-delay:3s}.s-top .t3{animation-delay:6s}.s-top .t4{animation-delay:9s}
 .s-top .t1 b{font-weight:800;letter-spacing:-.2px}
 @media (prefers-reduced-motion:reduce){.s-top .t{animation:none}.s-top .t1{opacity:1}}
+.s-top{position:relative;top:auto}
