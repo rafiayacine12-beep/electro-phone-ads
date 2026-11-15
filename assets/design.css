@@ -530,3 +530,23 @@ html:not(.no-js) .ep-rv{--p:0}
 .ep-sum dt,.ep-sum dd{margin:0}
 .ep-sum .tot{border:0;color:#fff;font-weight:800;font-size:16px}
 .ep-sum .tot dd{color:#FFC93C;font-size:22px}
+
+/* ===== fast order form ===== */
+.osheet .o-badges{display:none}
+.osheet .ep-prog-t{margin:2px 0 8px;font-size:13px}
+.osheet .o-prod{padding:8px 12px;margin-bottom:8px;gap:10px}
+.osheet .o-prod img{width:44px;height:44px}
+.osheet .ep-eta{margin:0 0 10px;padding:7px 12px;font-size:13px}
+.osheet .of-card{padding:12px 14px 6px}
+.osheet .of .fl{margin-bottom:10px}
+.osheet .fl label{font-size:14px;margin-bottom:5px}
+.osheet .fl input{min-height:50px;font-size:17px}
+.ep-addr[hidden]{display:none}
+.ep-addr-t{display:block;width:100%;margin:0 0 10px;padding:10px;border:1.5px dashed #F7C9A3;border-radius:14px;background:transparent;color:var(--deep);font:inherit;font-weight:700;font-size:14px;cursor:pointer}
+.ep-addr-t small{font-weight:500;color:var(--mut)}
+.ep-addr-t[hidden]{display:none}
+.osheet .qty-pick{padding:8px 10px}
+.osheet .qty-pick img{width:40px;height:40px}
+.osheet #submit{position:sticky;bottom:8px;z-index:5;box-shadow:0 8px 22px rgba(219,79,11,.4),0 0 0 10px rgba(255,255,255,.92)}
+.osheet .of .sum{margin-top:6px}
+.osheet .order,.osheet #order{overflow:visible !important;overflow:clip !important}

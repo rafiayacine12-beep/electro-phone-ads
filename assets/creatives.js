@@ -214,6 +214,15 @@
     }
     popTimer = setTimeout(openPop, 700);
   }
+
+  // fast order form: address toggle, Enter moves to next field, focus first field when the sheet opens
+  (function () {
+    var t = $("#ep-addr-t"), box = $("#ep-addr"), sh = $("#sh-order"), nm = $("#f-name"), ph = $("#f-phone"), ct = $("#f-city");
+    if (t && box) t.addEventListener("click", function () { box.hidden = false; t.hidden = true; var a = $("#f-addr"); if (a) a.focus(); });
+    function nxt(from, to) { if (from && to) from.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); to.focus(); } }); }
+    nxt(nm, ph); nxt(ph, ct);
+    if (sh && nm && "MutationObserver" in window) new MutationObserver(function () { if (!sh.hidden && !nm.value) setTimeout(function () { try { nm.focus({ preventScroll: true }); } catch (e) {} }, 450); }).observe(sh, { attributes: true, attributeFilter: ["hidden"] });
+  })();
   function checkDone() {
     if (offered || !doneEl || doneEl.hidden || /\b(warn|fail)\b/.test(doneEl.className)) return;
     var m = /EP-\d{6}-[0-9A-F]{6}/.exec(($("#done-sum") || {}).textContent || ""); if (!m) return;
