@@ -414,3 +414,58 @@ html:not(.no-js) .ep-rv{--p:0}
 @media (min-width:600px){.ep-pop{align-items:center}.ep-pop-box{border-radius:26px}}
 @media (prefers-reduced-motion:reduce){.ep-pop-box,.ep-pop-sc{transition:none}}
 .ep-pop-box .ep-up-btn{position:sticky;bottom:6px;z-index:3;margin-top:10px;box-shadow:0 5px 0 -2px #A83A05,0 -14px 18px 6px #fff}
+
+/* ===== 3D gift ===== */
+.ep-gift{text-align:center;padding-bottom:6px;transition:opacity .3s,transform .3s}
+.ep-gift.out{opacity:0;transform:scale(.92)}
+.ep-gift h4{font-size:22px}
+.ep-gift[hidden],.ep-offer[hidden]{display:none}
+.ep-offer.rise{animation:popIn .5s cubic-bezier(.2,.9,.3,1) both}
+.gb-btn{display:block;width:100%;background:radial-gradient(120% 90% at 50% 55%,#3B1B0A 0%,#1B0F2E 55%,#0B1030 100%);border:0;border-radius:24px;padding:0;margin:8px 0 14px;cursor:pointer;overflow:hidden;-webkit-tap-highlight-color:transparent}
+.gb-scene{position:relative;height:272px;perspective:900px;perspective-origin:50% 30%;display:flex;align-items:center;justify-content:center}
+.gb-glow{position:absolute;left:50%;top:56%;width:240px;height:240px;margin:-120px 0 0 -120px;border-radius:50%;background:radial-gradient(circle,rgba(255,138,61,.55),rgba(255,138,61,0) 68%);animation:glowP 2.4s ease-in-out infinite}
+.gb-rays{position:absolute;left:50%;top:52%;width:420px;height:420px;margin:-210px 0 0 -210px;border-radius:50%;opacity:0;background:repeating-conic-gradient(from 0deg,rgba(255,214,107,.55) 0 7deg,transparent 7deg 20deg);-webkit-mask:radial-gradient(circle,#000 0,transparent 68%);mask:radial-gradient(circle,#000 0,transparent 68%)}
+.gb-scene.open .gb-rays{animation:rays 1.6s ease-out forwards}
+.gb-sh{position:absolute;left:50%;bottom:34px;width:150px;height:26px;margin-left:-75px;border-radius:50%;background:radial-gradient(rgba(0,0,0,.55),transparent 70%);animation:shP 5s ease-in-out infinite}
+.gb{position:relative;width:120px;height:120px;transform-style:preserve-3d;transform:rotateX(-24deg) rotateY(-32deg);animation:gbSway 5s ease-in-out infinite,gbJig 3.2s ease-in-out 1.2s infinite;margin-top:22px}
+.gbb,.gl{position:absolute;transform-style:preserve-3d}
+.gbb{left:0;top:0;width:120px;height:120px}
+.gbb .f{position:absolute;width:120px;height:84px;left:0;top:36px;background:linear-gradient(180deg,#FF8A3D,#E4570C)}
+.gbb .fr{transform:translateZ(60px)}
+.gbb .bk{transform:rotateY(180deg) translateZ(60px);background:linear-gradient(180deg,#D94F0A,#B83C06)}
+.gbb .rt{transform:rotateY(90deg) translateZ(60px);background:linear-gradient(180deg,#E4570C,#C9470A)}
+.gbb .lf{transform:rotateY(-90deg) translateZ(60px);background:linear-gradient(180deg,#F26B1D,#D94F0A)}
+.gbb .floor{height:120px;top:-24px;transform:rotateX(90deg);background:radial-gradient(circle,#FFE9A8 0,#FFB347 45%,#B83C06 100%)}
+.gbb .f:not(.floor)::after,.gl .l:not(.top)::after{content:"";position:absolute;left:50%;top:0;width:24px;height:100%;margin-left:-12px;background:linear-gradient(90deg,#F5A623,#FFE08A 50%,#F5A623)}
+.gl{left:-6px;top:10px;width:132px;height:26px}
+.gl .l{position:absolute;width:132px;height:26px;left:0;top:0;background:linear-gradient(180deg,#FF9A55,#F26B1D)}
+.gl .fr{transform:translateZ(66px)}
+.gl .bk{transform:rotateY(180deg) translateZ(66px);background:linear-gradient(180deg,#E4570C,#D94F0A)}
+.gl .rt{transform:rotateY(90deg) translateZ(66px);background:linear-gradient(180deg,#F26B1D,#E4570C)}
+.gl .lf{transform:rotateY(-90deg) translateZ(66px);background:linear-gradient(180deg,#FF8A3D,#F26B1D)}
+.gl .top{height:132px;top:-66px;transform:rotateX(90deg);background:linear-gradient(135deg,#FFB070,#FF8A3D)}
+.gl .top::before,.gl .top::after{content:"";position:absolute;background:linear-gradient(90deg,#F5A623,#FFE08A 50%,#F5A623)}
+.gl .top::before{left:50%;top:0;width:24px;height:100%;margin-left:-12px}
+.gl .top::after{top:50%;left:0;height:24px;width:100%;margin-top:-12px;background:linear-gradient(180deg,#F5A623,#FFE08A 50%,#F5A623)}
+.bow{position:absolute;left:50%;top:-4px;width:0;height:0;transform:translate3d(0,-10px,0)}
+.bow i{position:absolute;width:46px;height:30px;top:-30px;border:9px solid #FFD23F;border-radius:50%;box-shadow:inset 0 0 0 2px #F5A623,0 3px 0 #D99410}
+.bow i:first-child{left:-52px;transform:rotate(-24deg)}
+.bow i:nth-child(2){left:6px;transform:rotate(24deg)}
+.bow b{position:absolute;left:-12px;top:-14px;width:24px;height:22px;border-radius:7px;background:linear-gradient(135deg,#FFE08A,#F5A623);box-shadow:0 3px 0 #D99410}
+.sp{position:absolute;width:10px;height:10px;background:#FFE08A;clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%);animation:tw 2.2s ease-in-out infinite}
+.sp.s1{left:18%;top:20%}.sp.s2{left:80%;top:26%;animation-delay:.5s;width:14px;height:14px}.sp.s3{left:70%;top:68%;animation-delay:1.1s}.sp.s4{left:26%;top:72%;animation-delay:1.6s;width:7px;height:7px}.sp.s5{left:50%;top:10%;animation-delay:.8s;width:8px;height:8px}
+.gb.open{animation:gbOpen 1.2s cubic-bezier(.3,1.3,.5,1) forwards}
+.gb.open .gl{animation:lidFly 1.1s cubic-bezier(.2,.8,.3,1) forwards}
+.gb.open .floor{filter:brightness(1.25)}
+.cf{position:absolute;left:50%;top:52%;border-radius:2px;opacity:0;animation:cfb 1.7s cubic-bezier(.15,.7,.3,1) forwards;z-index:3}
+.ep-open{margin-top:0}
+@keyframes gbSway{0%,100%{transform:rotateX(-24deg) rotateY(-36deg) translateY(0)}50%{transform:rotateX(-20deg) rotateY(-14deg) translateY(-9px)}}
+@keyframes gbJig{0%,86%,100%{rotate:0deg}89%{rotate:-4deg}92%{rotate:4deg}95%{rotate:-3deg}98%{rotate:2deg}}
+@keyframes gbOpen{0%{transform:rotateX(-24deg) rotateY(-24deg) scale(1)}25%{transform:rotateX(-18deg) rotateY(-22deg) scale(.94)}55%{transform:rotateX(-22deg) rotateY(-24deg) scale(1.1)}100%{transform:rotateX(-22deg) rotateY(-24deg) scale(1.04)}}
+@keyframes lidFly{0%{transform:none;opacity:1}35%{transform:translateY(-34px) rotateZ(-3deg)}100%{transform:translateY(-230px) rotateX(-35deg) rotateZ(22deg);opacity:0}}
+@keyframes cfb{0%{opacity:1;transform:translate(0,0) rotate(0) scale(.4)}70%{opacity:1}100%{opacity:0;transform:translate(var(--dx),calc(var(--dy) + 120px)) rotate(var(--r)) scale(1)}}
+@keyframes rays{0%{opacity:0;transform:rotate(0) scale(.4)}25%{opacity:1}100%{opacity:0;transform:rotate(60deg) scale(1.25)}}
+@keyframes glowP{0%,100%{transform:scale(1);opacity:.85}50%{transform:scale(1.12);opacity:1}}
+@keyframes shP{0%,100%{transform:scale(1)}50%{transform:scale(.88)}}
+@keyframes tw{0%,100%{opacity:.25;transform:scale(.6)}50%{opacity:1;transform:scale(1.15)}}
+@media (prefers-reduced-motion:reduce){.gb,.gb-glow,.gb-sh,.sp{animation:none !important}}

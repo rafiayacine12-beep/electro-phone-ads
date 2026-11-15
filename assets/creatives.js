@@ -72,6 +72,18 @@
     iphone: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6.5" y="2" width="11" height="20" rx="3"/><path d="M10 4.6h4"/></svg>',
     android: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6.5" y="2" width="11" height="20" rx="3"/><circle cx="12" cy="5.2" r=".9"/></svg>'
   };
+  var GIFT_HTML = '<div class="gb-scene"><div class="gb-rays"></div><div class="gb-glow"></div><i class="sp s1"></i><i class="sp s2"></i><i class="sp s3"></i><i class="sp s4"></i><i class="sp s5"></i><i class="gb-sh"></i>' +
+    '<div class="gb"><div class="gbb"><div class="f fr"></div><div class="f bk"></div><div class="f rt"></div><div class="f lf"></div><div class="f floor"></div></div>' +
+    '<div class="gl"><div class="l fr"></div><div class="l bk"></div><div class="l rt"></div><div class="l lf"></div><div class="l top"></div><div class="bow"><i></i><i></i><b></b></div></div></div></div>';
+  function confetti(host) {
+    var cols = ["#FF8A3D", "#FFD23F", "#FFFFFF", "#16A34A", "#FF4D6D", "#4DA3FF"];
+    for (var k = 0; k < 34; k++) {
+      var c = d.createElement("i"); c.className = "cf";
+      var a = Math.random() * Math.PI * 2, r = 90 + Math.random() * 130;
+      c.style.cssText = "--dx:" + Math.round(Math.cos(a) * r) + "px;--dy:" + Math.round(Math.sin(a) * r - 70) + "px;--r:" + Math.round(Math.random() * 900 - 450) + "deg;background:" + cols[k % cols.length] + ";width:" + (6 + Math.random() * 7).toFixed(0) + "px;height:" + (9 + Math.random() * 8).toFixed(0) + "px;animation-delay:" + (Math.random() * 0.12).toFixed(2) + "s";
+      host.appendChild(c); (function (n) { setTimeout(function () { n.remove(); }, 2200); })(c);
+    }
+  }
   function offerFor(ref, cat) {
     var items = [], u = cat.upsell;
     if (u && u.enabled && u.id && +u.price > 0) items.push({ id: u.id, name: u.name, price: +u.price, was: +u.was || 0, img: u.img, text: u.text, up: true });
@@ -152,6 +164,28 @@
         })
         .catch(function () { btn.disabled = false; msg.textContent = "تعذّر الاتصال. حاول مرة أخرى."; });
     });
+    // wrap the offer content behind a 3D gift that the customer opens
+    var nodes = [].slice.call(upBox.children).filter(function (n) { return n !== xb; });
+    var offer = el("div", "ep-offer"); nodes.forEach(function (n) { offer.appendChild(n); });
+    var gift = el("div", "ep-gift");
+    gift.appendChild(el("h4", "", "عندك مفاجأة ليك"));
+    gift.appendChild(el("p", "ep-up-s", "دغط على الهدية باش تفتحها"));
+    var gbtn = el("button", "gb-btn"); gbtn.type = "button"; gbtn.setAttribute("aria-label", "افتح الهدية"); gbtn.innerHTML = GIFT_HTML; gift.appendChild(gbtn);
+    var open = el("button", "btn btn-glow ep-up-btn ep-open", "افتح الهدية"); open.type = "button"; gift.appendChild(open);
+    upBox.appendChild(gift); upBox.appendChild(offer);
+    function reveal() { gift.hidden = true; offer.hidden = false; offer.classList.add("rise"); }
+    if (reduce) { reveal(); }
+    else {
+      offer.hidden = true; var opened = false;
+      var go = function () {
+        if (opened) return; opened = true;
+        var gb = $(".gb", gbtn), scene = $(".gb-scene", gbtn);
+        gift.classList.add("opening"); gb.classList.add("open"); scene.classList.add("open"); confetti(scene);
+        setTimeout(function () { gift.classList.add("out"); }, 1250);
+        setTimeout(reveal, 1550);
+      };
+      gbtn.addEventListener("click", go); open.addEventListener("click", go);
+    }
     popTimer = setTimeout(openPop, 700);
   }
   function checkDone() {
