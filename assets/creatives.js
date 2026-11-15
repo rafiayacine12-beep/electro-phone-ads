@@ -78,7 +78,7 @@
   function confetti(host) {
     var cols = ["#FF8A3D", "#FFD23F", "#FFFFFF", "#16A34A", "#FF4D6D", "#4DA3FF"];
     for (var k = 0; k < 34; k++) {
-      var c = d.createElement("i"); c.className = "cf";
+      var c = d.createElement("i"); c.className = "gcf";
       var a = Math.random() * Math.PI * 2, r = 90 + Math.random() * 130;
       c.style.cssText = "--dx:" + Math.round(Math.cos(a) * r) + "px;--dy:" + Math.round(Math.sin(a) * r - 70) + "px;--r:" + Math.round(Math.random() * 900 - 450) + "deg;background:" + cols[k % cols.length] + ";width:" + (6 + Math.random() * 7).toFixed(0) + "px;height:" + (9 + Math.random() * 8).toFixed(0) + "px;animation-delay:" + (Math.random() * 0.12).toFixed(2) + "s";
       host.appendChild(c); (function (n) { setTimeout(function () { n.remove(); }, 2200); })(c);
