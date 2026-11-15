@@ -1,5 +1,5 @@
 {
-  "_help": "Fill this file to turn on post-order offers. Prices here are the ONLY prices the server accepts. Keep ids unique, no spaces.",
+  "_help": "Prices here are the ONLY prices the server accepts. Keep ids unique, no spaces. Set upsell.enabled=true and a price to show the extra-pack offer.",
   "upsell": {
     "enabled": false,
     "id": "pack-extra",
@@ -9,5 +9,14 @@
     "img": "images/pack-clean.webp",
     "text": "زيد باك تاني وتوصلك معا الطلبية بلا مصاريف توصيل"
   },
-  "cross": []
+  "cross": [
+    {
+      "id": "pack-iphone",
+      "name": "Pack iPhone كامل",
+      "price": 159,
+      "img": "images/pack-iphone.webp",
+      "text": "بطارية MagSafe + شارجور 20W + 2 كابلات",
+      "banner": true
+    }
+  ]
 }

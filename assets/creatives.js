@@ -65,7 +65,7 @@
   function offerFor(ref, cat) {
     var items = [], u = cat.upsell;
     if (u && u.enabled && u.id && +u.price > 0) items.push({ id: u.id, name: u.name, price: +u.price, was: +u.was || 0, img: u.img, text: u.text, up: true });
-    (Array.isArray(cat.cross) ? cat.cross : []).forEach(function (x) { if (x && x.id && +x.price > 0) items.push({ id: x.id, name: x.name, price: +x.price, img: x.img, text: x.text }); });
+    (Array.isArray(cat.cross) ? cat.cross : []).forEach(function (x) { if (x && x.id && +x.price > 0) items.push({ id: x.id, name: x.name, price: +x.price, img: x.img, text: x.text, banner: !!x.banner }); });
     if (!items.length) return;
     var picked = {}, form = $("#form"), cfg = window.CONFIG || {};
     upBox.textContent = "";
@@ -80,13 +80,15 @@
       btn.disabled = !n; btn.textContent = n ? "أضف للطلب (+" + t + " درهم)" : "اختار شي حاجة";
     }
     items.forEach(function (i) {
-      var card = el("button", "ep-up-card" + (i.up ? " is-up" : "")); card.type = "button"; card.setAttribute("aria-pressed", "false");
+      var card = el("button", "ep-up-card" + (i.up ? " is-up" : "") + (i.banner ? " is-banner" : "")); card.type = "button"; card.setAttribute("aria-pressed", "false");
       if (i.up) card.appendChild(el("span", "ep-up-badge", "عرض خاص"));
-      if (i.img) { var im = d.createElement("img"); im.src = i.img; im.alt = ""; im.width = 72; im.height = 72; im.loading = "lazy"; card.appendChild(im); }
+      if (i.banner) card.appendChild(el("span", "ep-up-badge", "توصيل مجاني معا الطلبية"));
+      if (i.img) { var im = d.createElement("img"); im.src = i.img; im.alt = i.banner ? i.name : ""; im.width = i.banner ? 800 : 72; im.height = i.banner ? 990 : 72; im.loading = "lazy"; card.appendChild(im); }
       var t = el("span", "ep-up-t"); t.appendChild(el("b", "", i.name)); if (i.text) t.appendChild(el("small", "", i.text)); card.appendChild(t);
       var pr = el("span", "ep-up-p"); pr.appendChild(el("b", "", "+" + i.price + " درهم")); if (i.was) { var w = el("s", "", i.was + " درهم"); pr.appendChild(w); } card.appendChild(pr);
+      if (i.banner) card.appendChild(el("span", "ep-up-add", "زيدو لطلبيتي"));
       card.appendChild(el("span", "ep-up-chk", "✓"));
-      card.addEventListener("click", function () { picked[i.id] = !picked[i.id]; card.classList.toggle("on", !!picked[i.id]); card.setAttribute("aria-pressed", picked[i.id] ? "true" : "false"); recalc(); });
+      card.addEventListener("click", function () { picked[i.id] = !picked[i.id]; card.classList.toggle("on", !!picked[i.id]); if (i.banner) { var ad = $(".ep-up-add", card); if (ad) ad.textContent = picked[i.id] ? "✓ تزاد لطلبيتك" : "زيدو لطلبيتي"; } card.setAttribute("aria-pressed", picked[i.id] ? "true" : "false"); recalc(); });
       list.appendChild(card);
     });
     upBox.appendChild(btn); upBox.appendChild(msg); upBox.appendChild(skip);
