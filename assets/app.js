@@ -560,6 +560,14 @@
   }
   $("#done-home").addEventListener("click", function (e) { e.preventDefault(); closeSheet(); root.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" }); });
 
+  function sendWa(o) {
+    completed = true;
+    var url = waUrl(CONFIG.whatsapp, orderText(o));
+    // in-app browsers (Facebook/Instagram/TikTok) block new windows: open in place
+    if (IN_APP) root.location.href = url; else if (!root.open(url, "_blank", "noopener")) root.location.href = url;
+    showDone("warn", o, "", url); // honest: not confirmed until the customer presses Send
+  }
+
   form.addEventListener("submit", function (e) {
     e.preventDefault();
     if (busy || completed) return;
@@ -572,7 +580,7 @@
       setBusy(true);
       var ctl = root.AbortController ? new AbortController() : null, to = setTimeout(function () { if (ctl) ctl.abort(); }, 15000);
       fetch(CONFIG.orderEndpoint, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload(o, evId)), signal: ctl ? ctl.signal : undefined })
-        .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, j: j }; }); })
+        .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok, j: j, status: r.status }; }); })
         .then(function (res) {
           clearTimeout(to);
           if (res.ok && res.j && res.j.ok === true) {
@@ -582,6 +590,8 @@
             o.total = serverTotal;
             track("Lead", { value: serverTotal, num_items: o.qty }, evId); // Purchase/CompletePayment are NOT sent here: COD is unpaid until delivery
             showDone("ok", o, ref, null, res.j.stages);
+          } else if (res.status === 503 && validWa(CONFIG.whatsapp)) {
+            setBusy(false); sendWa(o); // backend not configured yet: don't lose the order
           } else {
             setBusy(false);
             showErr((res.j && res.j.message) || "تعذّر تسجيل طلبك في الوقت الحالي. معلوماتك محفوظة، يُرجى المحاولة مرة أخرى.");
@@ -591,14 +601,7 @@
       return;
     }
 
-    if (validWa(CONFIG.whatsapp)) {
-      completed = true;
-      var url = waUrl(CONFIG.whatsapp, orderText(o));
-      // in-app browsers (Facebook/Instagram/TikTok) block new windows: open in place
-      if (IN_APP) root.location.href = url; else if (!root.open(url, "_blank", "noopener")) root.location.href = url;
-      showDone("warn", o, "", url); // honest: not confirmed until the customer presses Send
-      return;
-    }
+    if (validWa(CONFIG.whatsapp)) { sendWa(o); return; }
 
     showErr("نعتذر، خدمة استقبال الطلبات غير متاحة حالياً. يُرجى المحاولة بعد قليل.");
     if (root.console) console.error("No order destination: set CONFIG.orderEndpoint (or CONFIG.whatsapp) in index.html");
