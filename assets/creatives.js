@@ -55,6 +55,66 @@
     nio.observe(nums);
   }
 
+  /* --- after the order: upsell + cross-sell (prices come from catalog.json, re-checked by the server) --- */
+  var doneEl = $("#done"), upBox = $("#ep-up"), offered = false, catalog = null;
+  function el(tag, cls, txt) { var n = d.createElement(tag); if (cls) n.className = cls; if (txt != null) n.textContent = txt; return n; }
+  function loadCatalog() {
+    if (catalog) return Promise.resolve(catalog);
+    return fetch("catalog.json", { cache: "no-cache" }).then(function (r) { return r.ok ? r.json() : {}; }).catch(function () { return {}; }).then(function (j) { return (catalog = j || {}); });
+  }
+  function offerFor(ref, cat) {
+    var items = [], u = cat.upsell;
+    if (u && u.enabled && u.id && +u.price > 0) items.push({ id: u.id, name: u.name, price: +u.price, was: +u.was || 0, img: u.img, text: u.text, up: true });
+    (Array.isArray(cat.cross) ? cat.cross : []).forEach(function (x) { if (x && x.id && +x.price > 0) items.push({ id: x.id, name: x.name, price: +x.price, img: x.img, text: x.text }); });
+    if (!items.length) return;
+    var picked = {}, form = $("#form"), cfg = window.CONFIG || {};
+    upBox.textContent = "";
+    upBox.appendChild(el("h4", "", "قبل ما تمشي، شوف هاد العروض"));
+    upBox.appendChild(el("p", "ep-up-s", "كتزاد لنفس الطلبية وكتخلّص كلشي عند الاستلام."));
+    var list = el("div", "ep-up-list"); upBox.appendChild(list);
+    var btn = el("button", "btn btn-glow ep-up-btn", "اختار شي حاجة"); btn.type = "button"; btn.disabled = true;
+    var skip = el("button", "ep-up-skip", "لا، شكراً"); skip.type = "button";
+    var msg = el("p", "ep-up-msg"); msg.setAttribute("role", "status");
+    function recalc() {
+      var n = 0, t = 0; items.forEach(function (i) { if (picked[i.id]) { n++; t += i.price; } });
+      btn.disabled = !n; btn.textContent = n ? "أضف للطلب (+" + t + " درهم)" : "اختار شي حاجة";
+    }
+    items.forEach(function (i) {
+      var card = el("button", "ep-up-card" + (i.up ? " is-up" : "")); card.type = "button"; card.setAttribute("aria-pressed", "false");
+      if (i.up) card.appendChild(el("span", "ep-up-badge", "عرض خاص"));
+      if (i.img) { var im = d.createElement("img"); im.src = i.img; im.alt = ""; im.width = 72; im.height = 72; im.loading = "lazy"; card.appendChild(im); }
+      var t = el("span", "ep-up-t"); t.appendChild(el("b", "", i.name)); if (i.text) t.appendChild(el("small", "", i.text)); card.appendChild(t);
+      var pr = el("span", "ep-up-p"); pr.appendChild(el("b", "", "+" + i.price + " درهم")); if (i.was) { var w = el("s", "", i.was + " درهم"); pr.appendChild(w); } card.appendChild(pr);
+      card.appendChild(el("span", "ep-up-chk", "✓"));
+      card.addEventListener("click", function () { picked[i.id] = !picked[i.id]; card.classList.toggle("on", !!picked[i.id]); card.setAttribute("aria-pressed", picked[i.id] ? "true" : "false"); recalc(); });
+      list.appendChild(card);
+    });
+    upBox.appendChild(btn); upBox.appendChild(msg); upBox.appendChild(skip);
+    skip.addEventListener("click", function () { upBox.hidden = true; });
+    btn.addEventListener("click", function () {
+      var sel = items.filter(function (i) { return picked[i.id]; }).map(function (i) { return { id: i.id, qty: 1 }; });
+      if (!sel.length || !cfg.orderEndpoint) return;
+      btn.disabled = true; msg.textContent = "جاري الإضافة...";
+      var f = form.elements;
+      fetch(cfg.orderEndpoint, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "addon", ref: ref, items: sel, customer: { name: f.namedItem("name").value, phone: f.namedItem("phone").value, city: f.namedItem("city").value } }) })
+        .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return { ok: r.ok && j.ok === true, j: j }; }); })
+        .then(function (res) {
+          if (!res.ok) { btn.disabled = false; msg.textContent = (res.j && res.j.message) || "تعذّرت الإضافة. حاول مرة أخرى."; return; }
+          upBox.textContent = "";
+          upBox.appendChild(el("p", "ep-up-ok", "✓ تزادت لطلبيتك (+" + res.j.added + " درهم)"));
+          upBox.appendChild(el("p", "ep-up-s", "غادي نأكدو كلشي معاك فالمكالمة، وكتخلّص ملي توصلك الطلبية."));
+        })
+        .catch(function () { btn.disabled = false; msg.textContent = "تعذّر الاتصال. حاول مرة أخرى."; });
+    });
+    upBox.hidden = false;
+  }
+  function checkDone() {
+    if (offered || !doneEl || doneEl.hidden || /\b(warn|fail)\b/.test(doneEl.className)) return;
+    var m = /EP-\d{6}-[0-9A-F]{6}/.exec(($("#done-sum") || {}).textContent || ""); if (!m) return;
+    offered = true; loadCatalog().then(function (c) { offerFor(m[0], c); });
+  }
+  if (doneEl && upBox && "MutationObserver" in window) new MutationObserver(checkDone).observe(doneEl, { attributes: true, attributeFilter: ["hidden", "class"] });
+
   /* --- header: shadow once scrolled --- */
   var hd = $("#hd");
   if (hd) { var hs = function () { hd.classList.toggle("stuck", window.scrollY > 40); }; window.addEventListener("scroll", hs, { passive: true }); hs(); }

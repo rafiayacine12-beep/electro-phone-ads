@@ -9,6 +9,16 @@ const MAX_QTY = 3;
 const PRODUCT = { id: "pack2-earbuds", name: "باك 2 سماعات بلا خيط" };
 const env = (k) => (process.env[k] || "").trim();
 
+// post-order offers (upsell / cross-sell): prices live ONLY here, in catalog.json
+let CATALOG = {};
+try { CATALOG = require("../../catalog.json"); } catch (e) { CATALOG = {}; }
+function addonItems() {
+  const m = new Map(), u = CATALOG.upsell;
+  if (u && u.enabled && u.id && Number(u.price) > 0) m.set(String(u.id), { id: String(u.id), name: String(u.name || u.id), price: Number(u.price), kind: "upsell" });
+  (Array.isArray(CATALOG.cross) ? CATALOG.cross : []).forEach((x) => { if (x && x.id && Number(x.price) > 0) m.set(String(x.id), { id: String(x.id), name: String(x.name || x.id), price: Number(x.price), kind: "cross-sell" }); });
+  return m;
+}
+
 const hits = new Map(); // best-effort rate limit per warm instance
 function limited(ip) {
   const now = Date.now(), win = 10 * 60 * 1000, max = 5;
@@ -86,6 +96,33 @@ async function sendTikTok(o, body, ip, ua) {
   } finally { clearTimeout(t); }
 }
 
+async function handleAddon(body, origin) {
+  const ref = String(body.ref || "");
+  if (!/^EP-\d{6}-[0-9A-F]{6}$/.test(ref)) return reply(422, { ok: false, message: "رقم الطلب غير صحيح." }, origin);
+  const c = body.customer || {}, name = clean(c.name, 80), phone = normPhone(c.phone), city = clean(c.city, 60);
+  if (name.length < 3 || !phone || city.length < 2) return reply(422, { ok: false, message: "معلومات الطلب ناقصة." }, origin);
+  const cat = addonItems(), want = Array.isArray(body.items) ? body.items.slice(0, 8) : [], seen = new Set(), lines = [];
+  for (const it of want) {
+    const def = cat.get(String(it && it.id)); if (!def || seen.has(def.id)) continue;
+    const qty = Math.min(3, Math.max(1, Math.floor(Number(it.qty) || 1))); seen.add(def.id);
+    lines.push({ def, qty, sub: def.price * qty });
+  }
+  if (!lines.length) return reply(422, { ok: false, message: "هاد العرض ما بقاش متاح." }, origin);
+  if (!env("SHEETS_WEBHOOK_URL")) return reply(503, { ok: false, message: "نعتذر، الخدمة غير متاحة حالياً." }, origin);
+  try {
+    for (const l of lines) {
+      const row = { secret: env("SHEETS_SECRET"), ref, created_at: new Date().toISOString(), name, phone, city, address: "", notes: "إضافة بعد الطلب (" + l.def.kind + ")",
+        product: l.def.name, quantity: l.qty, unit_price: l.def.price, subtotal: l.sub, delivery_fee: 0, total: l.sub, currency: "MAD",
+        utm_source: "", utm_medium: "", utm_campaign: "", utm_content: "", utm_term: "", fbclid: "", ttclid: "", status: "إضافة" };
+      const r = await postJSON(env("SHEETS_WEBHOOK_URL"), row, 10000); const j = await r.json().catch(() => ({}));
+      if (!(r.ok && j.ok === true)) throw new Error("sheet");
+    }
+  } catch (e) { return reply(502, { ok: false, message: "تعذّر تسجيل الإضافة. حاول مرة أخرى." }, origin); }
+  const added = lines.reduce((a, l) => a + l.sub, 0);
+  console.log("addon", ref, lines.map((l) => l.def.id + "x" + l.qty).join(","), added);
+  return reply(200, { ok: true, ref, added }, origin);
+}
+
 exports.handler = async (event) => {
   const origin = env("ALLOWED_ORIGIN") || "*";
   if (event.httpMethod === "OPTIONS") return { statusCode: 204, headers: { "Access-Control-Allow-Origin": origin, "Access-Control-Allow-Methods": "POST", "Access-Control-Allow-Headers": "Content-Type" } };
@@ -97,6 +134,7 @@ exports.handler = async (event) => {
   if (limited(ip || "unknown")) return reply(429, { ok: false, message: "لقد تجاوزت عدد المحاولات المسموح به. يُرجى المحاولة بعد قليل." }, origin);
 
   let body; try { body = JSON.parse(event.body || "{}"); } catch (e) { return reply(400, { ok: false }, origin); }
+  if (body && body.action === "addon") return handleAddon(body, origin);
   // spam: honeypot filled or form sent impossibly fast — pretend nothing, store nothing
   if (body.hp || Number(body.elapsed_ms) < 2500) return reply(400, { ok: false, message: "تعذّر تسجيل طلبك. يُرجى المحاولة مرة أخرى." }, origin);
 
@@ -129,4 +167,4 @@ exports.handler = async (event) => {
   return reply(200, { ok: true, ref, total: o.total, stages: { confirm: false, prepare: false, ship: false, deliver: false } }, origin);
 };
 
-exports._test = { validate, normPhone, clean, UNIT_PRICE };
+exports._test = { validate, normPhone, clean, UNIT_PRICE, addonItems };

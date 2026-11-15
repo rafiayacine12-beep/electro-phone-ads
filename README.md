@@ -99,3 +99,12 @@ netlify/functions/order.js      الـ backend ديال الطلبات
 server/google-apps-script.gs    صندوق الطلبات فـ Google Sheets
 netlify.toml                    إعدادات Netlify (functions + cache)
 ```
+
+---
+
+## 9. عروض بعد الطلب (Upsell / Cross-sell)
+- كتبان فصفحة «شكراً» من بعد ما يتسجل الطلب (غير إلا رجع السيرفر رقم الطلب).
+- كلشي كيتعمّر من `catalog.json`: `upsell` (باك إضافي بثمن خاص) و`cross` (لائحة منتجات: `id`, `name`, `price`, `img`, `text`).
+- الأثمنة **كيتعاودو يتحسبو فالسيرفر** من نفس الملف، ماشي من المتصفح.
+- كل إضافة كتزاد فالشيت بسطر جديد بنفس رقم الطلب وstatus = «إضافة».
+- إلا `upsell.enabled = false` و`cross = []` ما كيبان والو.
