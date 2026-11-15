@@ -40,6 +40,21 @@
     req();
   } else rv.forEach(function (el) { el.style.setProperty("--p", 1); });
 
+  /* --- numbers band: count-up when it scrolls into view --- */
+  var nums = $(".ep-nums");
+  if (nums && !reduce && "IntersectionObserver" in window) {
+    var nio = new IntersectionObserver(function (es) {
+      if (!es[0].isIntersecting) return; nio.disconnect();
+      $$("b[data-t]", nums).forEach(function (b) {
+        var t = b.getAttribute("data-t"), t0 = null;
+        (function step(now) { if (!t0) t0 = now; var p = Math.min(1, (now - t0) / 1000), e = 1 - Math.pow(1 - p, 3);
+          b.textContent = t.replace(/\d+/g, function (n) { return Math.round(+n * e); });
+          if (p < 1) requestAnimationFrame(step); else b.textContent = t; })(performance.now());
+      });
+    }, { threshold: 0.5 });
+    nio.observe(nums);
+  }
+
   /* --- order form: progress + delivery estimate --- */
   var form = $("#form"), bar = $(".ep-prog i"), lab = $(".ep-prog-t"), eta = $("#ep-eta");
   var DAYS = ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
