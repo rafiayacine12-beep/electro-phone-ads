@@ -550,3 +550,11 @@ html:not(.no-js) .ep-rv{--p:0}
 .osheet #submit{position:sticky;bottom:8px;z-index:5;box-shadow:0 8px 22px rgba(219,79,11,.4),0 0 0 10px rgba(255,255,255,.92)}
 .osheet .of .sum{margin-top:6px}
 .osheet .order,.osheet #order{overflow:visible !important;overflow:clip !important}
+
+/* sticky bar: WhatsApp quick button */
+.st-wa{flex:none;display:flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:14px;border:2px solid #DB4F0B;background:#fff}
+.st-wa svg{width:24px;height:24px;fill:none;stroke:#DB4F0B;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.sticky{gap:8px}
+.sticky .btn{white-space:nowrap;font-size:14.5px;padding-inline:10px}
+.st-wa{width:46px;height:46px}
+@media (max-width:360px){.st-pack{display:none}}

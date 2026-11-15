@@ -214,13 +214,13 @@
   } else $$(".reveal").forEach(function (el) { el.classList.add("in"); });
 
   /* --- sticky bar, assistant + offer launchers --- */
-  var sticky = $("#sticky"), stickyCta = $("a", sticky), fab = $("#fab"), launcher = $("#promo-launch"), hero = $(".hero");
+  var sticky = $("#sticky"), stickyLinks = $$("a", sticky), fab = $("#fab"), launcher = $("#promo-launch"), hero = $(".hero");
   var st = { heroGone: false, orderSeen: false, modal: false, typing: false, promoSeen: false };
   function updateBars() {
     var show = st.heroGone && !st.orderSeen && !st.modal && !st.typing;
     sticky.classList.toggle("show", show);
     sticky.setAttribute("aria-hidden", show ? "false" : "true");
-    stickyCta.tabIndex = show ? 0 : -1;
+    stickyLinks.forEach(function (a) { a.tabIndex = show ? 0 : -1; });
     var floatOk = st.heroGone && !st.orderSeen && !st.modal && !st.typing; // never over the hero CTAs or the form
     if (fab) fab.classList.toggle("hide", !floatOk);
     if (launcher) launcher.classList.toggle("hide", !(floatOk && st.promoSeen));
