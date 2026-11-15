@@ -178,7 +178,7 @@ body,button,input,textarea,select,output{font-family:'Noto Kufi Arabic',system-u
 .osheet.on .o-prod{animation:fieldIn .5s cubic-bezier(.2,.8,.2,1) .04s both}
 .osheet.on .o-badges{animation:fieldIn .5s cubic-bezier(.2,.8,.2,1) .08s both}
 </style>
-<link rel="stylesheet" href="assets/design.css?v=1">
+<link rel="stylesheet" href="assets/design.css?v=3">
 </head>
 <body id="top">
 <a href="#order" class="skip">سير للطلب</a>
@@ -191,6 +191,7 @@ body,button,input,textarea,select,output{font-family:'Noto Kufi Arabic',system-u
   <h1><span>جوج سماعات</span><span>بثمن <b class="u">وحدة</b></span></h1>
   <p class="lede">باك 2: جوج مجموعات كاملة، كل وحدة فيها جوج سماعات وعلبة شحن ديالها.</p>
   <div class="stage">
+    <span class="halo" aria-hidden="true"><i></i><i></i><i></i></span>
     <img src="images/pack-clean.webp" width="875" height="526" alt="جوج مجموعات سماعات بلا خيط مع علب الشحن" fetchpriority="high">
     <div class="disc" aria-label="179 درهم"><bdi>179</bdi><span>درهم</span></div>
   </div>
@@ -203,6 +204,63 @@ body,button,input,textarea,select,output{font-family:'Noto Kufi Arabic',system-u
     <a href="#order" class="btn btn-glow" data-cta="hero">اطلب العرض دابا</a>
     <p>خلّص غير ملي توصلك الطلبية</p>
   </div>
+</section>
+
+
+<section class="sec ep-crs" aria-label="المنتج">
+  <!-- 1 : 1+1 -->
+  <article class="cr cr-pack">
+    <h2>وحدة ليك،<br>ووحدة لعزيز عليك</h2>
+    <div class="pk">
+      <img class="pk-a" src="images/case-r.webp" width="415" height="525" alt="" loading="lazy">
+      <span class="pk-plus" aria-hidden="true">+</span>
+      <img class="pk-b" src="images/case-l.webp" width="415" height="526" alt="" loading="lazy">
+    </div>
+    <div class="pk-eq"><span>جوج مجموعات كاملة بـ</span><b><i data-to="179">179</i></b><em>درهم</em></div>
+  </article>
+
+  <!-- 2 : Bluetooth -->
+  <article class="cr cr-bt">
+    <h2>تربطها بالتيليفون<br>بلا خيوط</h2>
+    <div class="bt-stage">
+      <div class="bt-ph" aria-hidden="true">
+        <i class="bt-notch"></i>
+        <div class="bt-card">
+          <span class="bt-ic"><span class="r r1"></span><span class="r r2"></span><span class="r r3"></span>
+            <svg viewBox="0 0 24 24"><path d="M7 7l10 10-5 5V2l5 5L7 17"/></svg></span>
+          <b>Electro Phone</b>
+          <small class="s1">كيقلّب...</small><small class="s2">✓ متصل</small>
+        </div>
+      </div>
+      <img class="bt-case" src="images/case-r.webp" width="415" height="525" alt="علبة سماعات" loading="lazy">
+    </div>
+    <p class="cr-note">كتخدم مع <bdi>Android</bdi> و <bdi>iPhone</bdi> عبر <bdi>Bluetooth</bdi></p>
+  </article>
+
+  <!-- 3 : calls -->
+  <article class="cr cr-call">
+    <h2>جاوب على المكالمات<br>بلمسة وحدة</h2>
+    <div class="cl-stage" aria-hidden="true">
+      <div class="cl-card">
+        <span class="cl-av"><span class="r r1"></span><span class="r r2"></span>
+          <svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v4"/></svg></span>
+        <div class="cl-txt"><b class="t1">مكالمة واردة</b><b class="t2">جاري المكالمة</b><small>ميكروفون مدمج</small></div>
+        <div class="cl-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      </div>
+      <span class="cl-tap"></span>
+    </div>
+    <p class="cr-note">ميكروفون مدمج وتحكم باللمس</p>
+  </article>
+
+  <!-- 4 : battery -->
+  <article class="cr cr-bat">
+    <h2><bdi>5–6</bdi> ساعات<br>ديال الاستعمال</h2>
+    <div class="bt-gauge" aria-hidden="true">
+      <svg viewBox="0 0 120 120"><circle class="g0" cx="60" cy="60" r="52"/><circle class="g1" cx="60" cy="60" r="52"/></svg>
+      <div><b dir="ltr">5–6</b><small>ساعات</small></div>
+    </div>
+    <p class="cr-note">تقريباً، حسب الاستعمال. وعلبة الشحن معاك باش تعاود تشارجي</p>
+  </article>
 </section>
 
 <section class="sec">
@@ -297,11 +355,14 @@ body,button,input,textarea,select,output{font-family:'Noto Kufi Arabic',system-u
   <div class="o-top"><button type="button" class="x" data-close aria-label="إغلاق">✕</button></div>
 <section class="sec order" id="order" aria-labelledby="t14">
   <h2 id="t14">كمّل طلبك دابا</h2>
+  <div class="ep-prog" aria-hidden="true"><i></i></div>
+  <p class="ep-prog-t" aria-live="polite">باقي 3 خانات</p>
   <div class="o-prod">
     <img src="images/pack-clean.webp" width="64" height="64" alt="">
     <div class="o-prod-t"><b>باك 2 سماعات بلا خيط</b><small>جوج مجموعات كاملة</small></div>
     <div class="o-prod-p"><bdi>179</bdi><span>درهم</span></div>
   </div>
+  <p class="ep-eta"><span aria-hidden="true">📦</span><span id="ep-eta">غادي توصلك فـ 24 حتى 48 ساعة</span></p>
   <ul class="o-badges">
     <li><span aria-hidden="true">🚚</span>توصيل مجاني</li>
     <li><span aria-hidden="true">💵</span>الدفع عند الاستلام</li>
@@ -415,6 +476,7 @@ body,button,input,textarea,select,output{font-family:'Noto Kufi Arabic',system-u
 </div>
 <div class="scrim" id="scrim" hidden></div>
 <script src="assets/app.js?v=5"></script>
+<script src="assets/creatives.js?v=1" defer></script>
 <script src="assets/agent.js" defer></script>
 </body>
 </html>
