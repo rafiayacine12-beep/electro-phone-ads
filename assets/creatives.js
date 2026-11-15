@@ -56,7 +56,13 @@
   }
 
   /* --- after the order: upsell + cross-sell (prices come from catalog.json, re-checked by the server) --- */
-  var doneEl = $("#done"), upBox = $("#ep-up"), offered = false, catalog = null;
+  var doneEl = $("#done"), upBox = $("#ep-up"), popEl = $("#ep-pop"), offered = false, catalog = null, popTimer = null;
+  function openPop() { popEl.hidden = false; void popEl.offsetWidth; popEl.classList.add("in"); setTimeout(function () { try { upBox.focus({ preventScroll: true }); } catch (e) {} }, 60); }
+  function closePop() { clearTimeout(popTimer); popEl.classList.remove("in"); setTimeout(function () { popEl.hidden = true; }, 260); }
+  if (popEl) {
+    popEl.addEventListener("click", function (e) { if (e.target.hasAttribute && e.target.hasAttribute("data-close")) closePop(); });
+    d.addEventListener("keydown", function (e) { if (e.key === "Escape" && !popEl.hidden) closePop(); });
+  }
   function el(tag, cls, txt) { var n = d.createElement(tag); if (cls) n.className = cls; if (txt != null) n.textContent = txt; return n; }
   function loadCatalog() {
     if (catalog) return Promise.resolve(catalog);
@@ -74,6 +80,7 @@
     var picked = {}, cards = {}, form = $("#form"), cfg = window.CONFIG || {};
     var plats = items.filter(function (i) { return i.platform; }), hasPlat = plats.length > 0;
     upBox.textContent = "";
+    var xb = el("button", "ep-pop-x", "×"); xb.type = "button"; xb.setAttribute("aria-label", "سد"); xb.addEventListener("click", closePop); upBox.appendChild(xb);
     upBox.appendChild(el("h4", "", hasPlat ? "عندنا ليك باك بثمن واعر" : "قبل ما تمشي، شوف هاد العروض"));
     upBox.appendChild(el("p", "ep-up-s", hasPlat ? "كتزاد لنفس الطلبية، والتوصيل مجاني، وكتخلّص عند الاستلام." : "كتزاد لنفس الطلبية وكتخلّص كلشي عند الاستلام."));
     var plat = null, list = el("div", "ep-up-list");
@@ -124,7 +131,7 @@
       });
     }
     upBox.appendChild(btn); upBox.appendChild(msg); upBox.appendChild(skip);
-    skip.addEventListener("click", function () { upBox.hidden = true; });
+    skip.addEventListener("click", closePop);
     recalc();
     btn.addEventListener("click", function () {
       var sel = items.filter(function (i) { return picked[i.id]; }).map(function (i) { return { id: i.id, qty: 1 }; });
@@ -136,12 +143,16 @@
         .then(function (res) {
           if (!res.ok) { btn.disabled = false; msg.textContent = (res.j && res.j.message) || "تعذّرت الإضافة. حاول مرة أخرى."; return; }
           upBox.textContent = "";
-          upBox.appendChild(el("p", "ep-up-ok", "✓ تزادت لطلبيتك (+" + res.j.added + " درهم)"));
+          var xb2 = el("button", "ep-pop-x", "×"); xb2.type = "button"; xb2.setAttribute("aria-label", "سد"); xb2.addEventListener("click", closePop); upBox.appendChild(xb2);
+          upBox.appendChild(el("p", "ep-up-tick", "✓"));
+          upBox.appendChild(el("p", "ep-up-ok", "تزادت لطلبيتك (+" + res.j.added + " درهم)"));
           upBox.appendChild(el("p", "ep-up-s", "غادي نأكدو كلشي معاك فالمكالمة، وكتخلّص ملي توصلك الطلبية."));
+          var ok = el("button", "btn btn-glow ep-up-btn", "تمام"); ok.type = "button"; ok.addEventListener("click", closePop); upBox.appendChild(ok);
+          popTimer = setTimeout(closePop, 6000);
         })
         .catch(function () { btn.disabled = false; msg.textContent = "تعذّر الاتصال. حاول مرة أخرى."; });
     });
-    upBox.hidden = false;
+    popTimer = setTimeout(openPop, 700);
   }
   function checkDone() {
     if (offered || !doneEl || doneEl.hidden || /\b(warn|fail)\b/.test(doneEl.className)) return;
