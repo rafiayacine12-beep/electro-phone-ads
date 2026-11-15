@@ -212,7 +212,7 @@
       };
       gbtn.addEventListener("click", go); open.addEventListener("click", go);
     }
-    popTimer = setTimeout(openPop, 700);
+    popTimer = setTimeout(openPop, 0);
   }
 
   // fast order form: address toggle, Enter moves to next field, focus first field when the sheet opens
@@ -223,6 +223,7 @@
     nxt(nm, ph); nxt(ph, ct);
     if (sh && nm && "MutationObserver" in window) new MutationObserver(function () { if (!sh.hidden && !nm.value) setTimeout(function () { try { nm.focus({ preventScroll: true }); } catch (e) {} }, 450); }).observe(sh, { attributes: true, attributeFilter: ["hidden"] });
   })();
+  loadCatalog(); // prefetch so the gift popup opens instantly after the order
   function checkDone() {
     if (offered || !doneEl || doneEl.hidden || /\b(warn|fail)\b/.test(doneEl.className)) return;
     var m = /EP-\d{6}-[0-9A-F]{6}/.exec(($("#done-sum") || {}).textContent || ""); if (!m) return;
