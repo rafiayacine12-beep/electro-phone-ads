@@ -1,5 +1,5 @@
 {
-  "_help": "Prices here are the ONLY prices the server accepts. Keep ids unique, no spaces. Set upsell.enabled=true and a price to show the extra-pack offer.",
+  "_help": "Prices here are the ONLY prices the server accepts. Keep ids unique, no spaces. Items with a platform (iphone/android) are shown after the customer picks their phone type.",
   "upsell": {
     "enabled": false,
     "id": "pack-extra",
@@ -11,11 +11,23 @@
   },
   "cross": [
     {
-      "id": "pack-iphone",
-      "name": "Pack iPhone كامل",
+      "id": "pack-android",
+      "platform": "android",
+      "name": "Pack Android الشحن الاحترافي",
       "price": 159,
+      "was": 219,
+      "img": "images/pack-android.webp",
+      "text": "شاحن 45W + باوربانك مغناطيسي + 2 كابلات USB-C",
+      "banner": true
+    },
+    {
+      "id": "pack-iphone",
+      "platform": "iphone",
+      "name": "Pack iPhone الشحن الكامل",
+      "price": 159,
+      "was": 219,
       "img": "images/pack-iphone.webp",
-      "text": "بطارية MagSafe + شارجور 20W + 2 كابلات",
+      "text": "شاحن 20W + كابل Lightning + كابل USB-C 60W + باوربانك MagSafe",
       "banner": true
     }
   ]

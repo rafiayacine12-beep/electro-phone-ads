@@ -384,3 +384,17 @@ html:not(.no-js) .ep-rv{--p:0}
 .ep-up-card.is-banner img{order:-1}
 .ep-up-card.is-banner .ep-up-badge{position:static;grid-column:1/-1;justify-self:start;margin:10px 14px 0;top:auto;inset-inline-start:auto}
 .ep-up-card.is-banner .ep-up-chk{display:none}
+
+/* platform chooser */
+@keyframes popIn{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:none}}
+.ep-q{margin:4px 0 8px;font-weight:800;font-size:15px;color:var(--ink)}
+.ep-plat{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.ep-plat-b{display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 8px;border:2px solid var(--line);border-radius:18px;background:#fff;color:var(--ink);font:inherit;cursor:pointer;transition:border-color .2s,background .2s,transform .15s}
+.ep-plat-b:active{transform:scale(.97)}
+.ep-plat-b b{font-size:16px}
+.ep-plat-i svg{width:26px;height:26px;fill:none;stroke:var(--o);stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.ep-plat-b.on{border-color:var(--o);background:var(--mint);box-shadow:0 0 0 3px rgba(219,79,11,.14)}
+.ep-up-card.pop{animation:popIn .45s cubic-bezier(.2,.9,.3,1) both}
+.ep-up-card[hidden]{display:none}
+.ep-up-btn[hidden]{display:none}
+@media (prefers-reduced-motion:reduce){.ep-up-card.pop{animation:none}}

@@ -62,37 +62,70 @@
     if (catalog) return Promise.resolve(catalog);
     return fetch("catalog.json", { cache: "no-cache" }).then(function (r) { return r.ok ? r.json() : {}; }).catch(function () { return {}; }).then(function (j) { return (catalog = j || {}); });
   }
+  var ICON = {
+    iphone: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6.5" y="2" width="11" height="20" rx="3"/><path d="M10 4.6h4"/></svg>',
+    android: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6.5" y="2" width="11" height="20" rx="3"/><circle cx="12" cy="5.2" r=".9"/></svg>'
+  };
   function offerFor(ref, cat) {
     var items = [], u = cat.upsell;
     if (u && u.enabled && u.id && +u.price > 0) items.push({ id: u.id, name: u.name, price: +u.price, was: +u.was || 0, img: u.img, text: u.text, up: true });
-    (Array.isArray(cat.cross) ? cat.cross : []).forEach(function (x) { if (x && x.id && +x.price > 0) items.push({ id: x.id, name: x.name, price: +x.price, img: x.img, text: x.text, banner: !!x.banner }); });
+    (Array.isArray(cat.cross) ? cat.cross : []).forEach(function (x) { if (x && x.id && +x.price > 0) items.push({ id: x.id, name: x.name, price: +x.price, was: +x.was || 0, img: x.img, text: x.text, banner: !!x.banner, platform: x.platform === "iphone" || x.platform === "android" ? x.platform : "" }); });
     if (!items.length) return;
-    var picked = {}, form = $("#form"), cfg = window.CONFIG || {};
+    var picked = {}, cards = {}, form = $("#form"), cfg = window.CONFIG || {};
+    var plats = items.filter(function (i) { return i.platform; }), hasPlat = plats.length > 0;
     upBox.textContent = "";
-    upBox.appendChild(el("h4", "", "قبل ما تمشي، شوف هاد العروض"));
-    upBox.appendChild(el("p", "ep-up-s", "كتزاد لنفس الطلبية وكتخلّص كلشي عند الاستلام."));
-    var list = el("div", "ep-up-list"); upBox.appendChild(list);
+    upBox.appendChild(el("h4", "", hasPlat ? "عندنا ليك باك بثمن واعر" : "قبل ما تمشي، شوف هاد العروض"));
+    upBox.appendChild(el("p", "ep-up-s", hasPlat ? "كتزاد لنفس الطلبية، والتوصيل مجاني، وكتخلّص عند الاستلام." : "كتزاد لنفس الطلبية وكتخلّص كلشي عند الاستلام."));
+    var plat = null, list = el("div", "ep-up-list");
+    if (hasPlat) {
+      upBox.appendChild(el("p", "ep-q", "شنو نوع التيليفون ديالك؟"));
+      plat = el("div", "ep-plat"); plat.setAttribute("role", "group");
+      [["iphone", "iPhone"], ["android", "Android"]].forEach(function (p) {
+        if (!plats.some(function (i) { return i.platform === p[0]; })) return;
+        var b = el("button", "ep-plat-b"); b.type = "button"; b.setAttribute("data-p", p[0]); b.setAttribute("aria-pressed", "false");
+        var ic = el("span", "ep-plat-i"); ic.innerHTML = ICON[p[0]]; b.appendChild(ic); b.appendChild(el("b", "", p[1])); plat.appendChild(b);
+      });
+      upBox.appendChild(plat);
+    }
+    upBox.appendChild(list);
     var btn = el("button", "btn btn-glow ep-up-btn", "اختار شي حاجة"); btn.type = "button"; btn.disabled = true;
     var skip = el("button", "ep-up-skip", "لا، شكراً"); skip.type = "button";
     var msg = el("p", "ep-up-msg"); msg.setAttribute("role", "status");
     function recalc() {
       var n = 0, t = 0; items.forEach(function (i) { if (picked[i.id]) { n++; t += i.price; } });
-      btn.disabled = !n; btn.textContent = n ? "أضف للطلب (+" + t + " درهم)" : "اختار شي حاجة";
+      btn.hidden = hasPlat && !n; btn.disabled = !n; btn.textContent = n ? "أضف للطلب (+" + t + " درهم)" : "اختار شي حاجة";
+    }
+    function setPicked(i, on) {
+      picked[i.id] = on; var card = cards[i.id]; card.classList.toggle("on", on); card.setAttribute("aria-pressed", on ? "true" : "false");
+      var ad = $(".ep-up-add", card); if (ad) ad.textContent = on ? "✓ تزاد لطلبيتك" : "زيدو لطلبيتي";
     }
     items.forEach(function (i) {
       var card = el("button", "ep-up-card" + (i.up ? " is-up" : "") + (i.banner ? " is-banner" : "")); card.type = "button"; card.setAttribute("aria-pressed", "false");
+      cards[i.id] = card;
       if (i.up) card.appendChild(el("span", "ep-up-badge", "عرض خاص"));
       if (i.banner) card.appendChild(el("span", "ep-up-badge", "توصيل مجاني معا الطلبية"));
-      if (i.img) { var im = d.createElement("img"); im.src = i.img; im.alt = i.banner ? i.name : ""; im.width = i.banner ? 800 : 72; im.height = i.banner ? 990 : 72; im.loading = "lazy"; card.appendChild(im); }
+      if (i.img) { var im = d.createElement("img"); im.src = i.img; im.alt = i.banner ? i.name : ""; im.width = i.banner ? 800 : 72; im.height = i.banner ? 800 : 72; im.loading = "lazy"; card.appendChild(im); }
       var t = el("span", "ep-up-t"); t.appendChild(el("b", "", i.name)); if (i.text) t.appendChild(el("small", "", i.text)); card.appendChild(t);
-      var pr = el("span", "ep-up-p"); pr.appendChild(el("b", "", "+" + i.price + " درهم")); if (i.was) { var w = el("s", "", i.was + " درهم"); pr.appendChild(w); } card.appendChild(pr);
+      var pr = el("span", "ep-up-p"); pr.appendChild(el("b", "", "+" + i.price + " درهم")); if (i.was) pr.appendChild(el("s", "", i.was + " درهم")); card.appendChild(pr);
       if (i.banner) card.appendChild(el("span", "ep-up-add", "زيدو لطلبيتي"));
       card.appendChild(el("span", "ep-up-chk", "✓"));
-      card.addEventListener("click", function () { picked[i.id] = !picked[i.id]; card.classList.toggle("on", !!picked[i.id]); if (i.banner) { var ad = $(".ep-up-add", card); if (ad) ad.textContent = picked[i.id] ? "✓ تزاد لطلبيتك" : "زيدو لطلبيتي"; } card.setAttribute("aria-pressed", picked[i.id] ? "true" : "false"); recalc(); });
+      if (i.platform) card.hidden = true;
+      card.addEventListener("click", function () { setPicked(i, !picked[i.id]); recalc(); });
       list.appendChild(card);
     });
+    if (plat) {
+      $$(".ep-plat-b", plat).forEach(function (b) {
+        b.addEventListener("click", function () {
+          var p = b.getAttribute("data-p");
+          $$(".ep-plat-b", plat).forEach(function (x) { var on = x === b; x.classList.toggle("on", on); x.setAttribute("aria-pressed", on ? "true" : "false"); });
+          plats.forEach(function (i) { var show = i.platform === p; cards[i.id].hidden = !show; if (!show && picked[i.id]) setPicked(i, false); if (show) { cards[i.id].classList.remove("pop"); void cards[i.id].offsetWidth; cards[i.id].classList.add("pop"); } });
+          recalc();
+        });
+      });
+    }
     upBox.appendChild(btn); upBox.appendChild(msg); upBox.appendChild(skip);
     skip.addEventListener("click", function () { upBox.hidden = true; });
+    recalc();
     btn.addEventListener("click", function () {
       var sel = items.filter(function (i) { return picked[i.id]; }).map(function (i) { return { id: i.id, qty: 1 }; });
       if (!sel.length || !cfg.orderEndpoint) return;
