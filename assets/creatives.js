@@ -158,6 +158,16 @@
           var xb2 = el("button", "ep-pop-x", "×"); xb2.type = "button"; xb2.setAttribute("aria-label", "سد"); xb2.addEventListener("click", closePop); upBox.appendChild(xb2);
           upBox.appendChild(el("p", "ep-up-tick", "✓"));
           upBox.appendChild(el("p", "ep-up-ok", "تزادت لطلبيتك (+" + res.j.added + " درهم)"));
+          var tdd = $("#done-sum .tot dd"), base = tdd ? parseInt((tdd.textContent || "").replace(/\D/g, ""), 10) : NaN, add = +res.j.added || 0;
+          if (base > 0) {
+            var sum = el("dl", "ep-sum"), tot = base + add;
+            [["طلبيتك", base + " درهم"], ["الباك", "+" + add + " درهم"], ["التوصيل", "مجاني"]].forEach(function (r) { var row = el("div", ""); row.appendChild(el("dt", "", r[0])); row.appendChild(el("dd", "", r[1])); sum.appendChild(row); });
+            var tr = el("div", "tot"); tr.appendChild(el("dt", "", "غادي تخلّص عند الاستلام")); tr.appendChild(el("dd", "", tot + " درهم")); sum.appendChild(tr);
+            upBox.appendChild(sum);
+            // keep the thank-you page summary in sync
+            var totRow = tdd.parentNode, nr = el("div", ""); nr.appendChild(el("dt", "", "باك إضافي")); nr.appendChild(el("dd", "", "+" + add + " درهم"));
+            totRow.parentNode.insertBefore(nr, totRow); tdd.textContent = tot + " درهم";
+          }
           upBox.appendChild(el("p", "ep-up-s", "غادي نأكدو كلشي معاك فالمكالمة، وكتخلّص ملي توصلك الطلبية."));
           var ok = el("button", "btn btn-glow ep-up-btn", "تمام"); ok.type = "button"; ok.addEventListener("click", closePop); upBox.appendChild(ok);
           popTimer = setTimeout(closePop, 6000);

@@ -525,3 +525,8 @@ html:not(.no-js) .ep-rv{--p:0}
 .ep-pop-box.ep-up .ep-up-ok{color:#4ADE80 !important;font-size:19px}
 .ep-pop-box.ep-up .ep-up-tick{box-shadow:0 0 0 8px rgba(74,222,128,.18),0 10px 30px rgba(22,163,74,.5)}
 @media (prefers-reduced-motion:reduce){.ep-up-add::after,.ep-up-btn::after{animation:none !important}}
+.ep-sum{margin:12px 0 4px;padding:6px 14px;border-radius:18px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12)}
+.ep-sum div{display:flex;justify-content:space-between;align-items:center;padding:9px 0;color:#C9D2F5;font-size:14.5px;border-bottom:1px dashed rgba(255,255,255,.14)}
+.ep-sum dt,.ep-sum dd{margin:0}
+.ep-sum .tot{border:0;color:#fff;font-weight:800;font-size:16px}
+.ep-sum .tot dd{color:#FFC93C;font-size:22px}
