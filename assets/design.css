@@ -274,3 +274,34 @@ html:not(.no-js) .cr:not(.go) *{animation-play-state:paused !important}
 .ep-real li{padding:16px 0;border-bottom:1.5px solid var(--line)}
 .ep-real b{display:block;font-size:16.5px;font-weight:800;color:var(--ink)}
 .ep-real p{margin:2px 0 0;color:var(--mut);font-size:14.5px;line-height:1.8}
+
+/* ===== real creatives: pro scroll motion ===== */
+@keyframes heroIn{from{opacity:0;transform:scale(.93) translateY(24px);filter:blur(10px)}to{opacity:1;transform:none;filter:none}}
+@keyframes kb{from{transform:scale(1)}to{transform:scale(1.045)}}
+@keyframes glint{0%,62%{transform:translateX(-140%) skewX(-18deg)}100%{transform:translateX(340%) skewX(-18deg)}}
+.hero.ep-hero{padding:16px 16px 34px}
+.hero-fig{position:relative;margin:0;border-radius:30px;overflow:hidden;box-shadow:0 26px 50px rgba(15,42,29,.24);animation:heroIn .9s cubic-bezier(.2,.8,.2,1) both;background:#EA580C}
+.hero-fig img{display:block;width:100%;height:auto;transform-origin:50% 60%;animation:kb 14s ease-in-out 1s infinite alternate}
+.glint{position:absolute;inset-block:0;inset-inline-start:0;width:34%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.38),transparent);animation:glint 5.5s ease-in-out 1.4s infinite;pointer-events:none}
+.ep-hero .s-cta{padding:22px 4px 0}
+.ep-h{font-size:24px;margin:0 0 16px;text-align:start}
+.ep-gal{padding-block:30px 14px}
+.ep-gal .ep-cta{margin:6px 0 16px}
+.ep-rv{--p:1;--py:0px;position:relative;margin:0 0 16px;border-radius:28px;overflow:hidden;background:#EA580C}
+html:not(.no-js) .ep-rv{--p:0}
+.ep-rv{clip-path:inset(calc((1 - var(--p)) * 8%) calc((1 - var(--p)) * 7%) round 28px);opacity:calc(.3 + .7 * var(--p))}
+.ep-rv img{display:block;width:100%;height:auto;transform:translate3d(0,var(--py),0) scale(calc(1.2 - .14 * var(--p)));will-change:transform}
+.ep-rv::after{content:"";position:absolute;inset:0;border-radius:28px;background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.28) 50%,transparent 65%);transform:translateX(-120%);pointer-events:none}
+.ep-rv.is-in::after{animation:shine 1.3s ease .1s 1 both}
+@keyframes shine{to{transform:translateX(120%)}}
+.ep-carwrap{padding-inline:0;padding-block:30px 24px}
+.ep-carwrap .ep-h{padding-inline:20px}
+.car{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 20px 14px;scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+.car::-webkit-scrollbar{display:none}
+.cf{--s:1;--o:1;flex:0 0 78%;margin:0;scroll-snap-align:center;border-radius:26px;overflow:hidden;background:#EA580C;transform:scale(var(--s));opacity:var(--o);transition:transform .15s linear,opacity .15s linear;box-shadow:0 16px 30px rgba(15,42,29,.18)}
+.cf img{display:block;width:100%;height:100%;object-fit:cover;aspect-ratio:4/5}
+.cf:nth-child(3) img{aspect-ratio:4/5}
+@media (prefers-reduced-motion:reduce){
+  .hero-fig,.hero-fig img,.glint,.ep-rv::after{animation:none !important}
+  .ep-rv{clip-path:none;opacity:1}.ep-rv img{transform:none}
+}

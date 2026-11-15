@@ -178,7 +178,7 @@ body,button,input,textarea,select,output{font-family:'Noto Kufi Arabic',system-u
 .osheet.on .o-prod{animation:fieldIn .5s cubic-bezier(.2,.8,.2,1) .04s both}
 .osheet.on .o-badges{animation:fieldIn .5s cubic-bezier(.2,.8,.2,1) .08s both}
 </style>
-<link rel="stylesheet" href="assets/design.css?v=4">
+<link rel="stylesheet" href="assets/design.css?v=7">
 </head>
 <body id="top">
 <a href="#order" class="skip">سير للطلب</a>
@@ -187,19 +187,12 @@ body,button,input,textarea,select,output{font-family:'Noto Kufi Arabic',system-u
 <div class="s-top"><span>🚚 التوصيل مجاني</span><span>💵 الدفع عند الاستلام</span></div>
 <header class="s-head"><span class="brand">Electro&nbsp;<b>Phone</b></span></header>
 
-<section class="hero s-hero">
-  <h1><span>جوج سماعات</span><span>بثمن <b class="u">وحدة</b></span></h1>
-  <p class="lede">باك 2: جوج مجموعات كاملة، كل وحدة فيها جوج سماعات وعلبة شحن ديالها.</p>
-  <div class="stage">
-    <span class="halo" aria-hidden="true"><i></i><i></i><i></i></span>
-    <img src="images/pack-clean.webp" width="875" height="526" alt="جوج مجموعات سماعات بلا خيط مع علب الشحن" fetchpriority="high">
-    <div class="disc" aria-label="179 درهم"><bdi>179</bdi><span>درهم</span></div>
-  </div>
-  <ul class="ep-chips">
-    <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M1 6h13v10H1zM14 10h4l3 3v3h-7"/><circle cx="5" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg>توصيل مجاني</li>
-    <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/></svg>الدفع عند الاستلام</li>
-    <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>من 24 حتى 48 ساعة</li>
-  </ul>
+<section class="hero s-hero ep-hero">
+  <h1 class="sr">جوج سماعات بثمن وحدة — باك 2 بـ179 درهم</h1>
+  <figure class="hero-fig">
+    <img src="images/hero.webp" width="1000" height="1250" alt="جوج سماعات بثمن وحدة، 179 درهم، التوصيل فابور، خلّص ملي توصلك" fetchpriority="high">
+    <span class="glint" aria-hidden="true"></span>
+  </figure>
   <div class="s-cta">
     <a href="#order" class="btn btn-glow" data-cta="hero">اطلب العرض دابا</a>
     <p>خلّص غير ملي توصلك الطلبية</p>
@@ -215,72 +208,35 @@ body,button,input,textarea,select,output{font-family:'Noto Kufi Arabic',system-u
 </section>
 
 
-<section class="sec ep-crs" aria-label="المنتج">
-  <!-- 1 : 1+1 -->
-  <article class="cr cr-pack">
-    <h2>وحدة ليك،<br>ووحدة لعزيز عليك</h2>
-    <div class="pk">
-      <img class="pk-a" src="images/case-r.webp" width="415" height="525" alt="" loading="lazy">
-      <span class="pk-plus" aria-hidden="true">+</span>
-      <img class="pk-b" src="images/case-l.webp" width="415" height="526" alt="" loading="lazy">
-    </div>
-    <div class="pk-eq"><span>جوج مجموعات كاملة بـ</span><b><i data-to="179">179</i></b><em>درهم</em></div>
-  </article>
-
-  <!-- 2 : Bluetooth -->
-  <article class="cr cr-bt">
-    <h2>تربطها بالتيليفون<br>بلا خيوط</h2>
-    <div class="bt-stage">
-      <div class="bt-ph" aria-hidden="true">
-        <i class="bt-notch"></i>
-        <div class="bt-card">
-          <span class="bt-ic"><span class="r r1"></span><span class="r r2"></span><span class="r r3"></span>
-            <svg viewBox="0 0 24 24"><path d="M7 7l10 10-5 5V2l5 5L7 17"/></svg></span>
-          <b>Electro Phone</b>
-          <small class="s1">كيقلّب...</small><small class="s2">✓ متصل</small>
-        </div>
-      </div>
-      <img class="bt-case" src="images/case-r.webp" width="415" height="525" alt="علبة سماعات" loading="lazy">
-    </div>
-    <p class="cr-note">كتخدم مع <bdi>Android</bdi> و <bdi>iPhone</bdi> عبر <bdi>Bluetooth</bdi></p>
-  </article>
-
-  <!-- 3 : calls -->
-  <article class="cr cr-call">
-    <h2>جاوب على المكالمات<br>بلمسة وحدة</h2>
-    <div class="cl-stage" aria-hidden="true">
-      <div class="cl-card">
-        <span class="cl-av"><span class="r r1"></span><span class="r r2"></span>
-          <svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v4"/></svg></span>
-        <div class="cl-txt"><b class="t1">مكالمة واردة</b><b class="t2">جاري المكالمة</b><small>ميكروفون مدمج</small></div>
-        <div class="cl-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-      </div>
-      <span class="cl-tap"></span>
-    </div>
-    <p class="cr-note">ميكروفون مدمج وتحكم باللمس</p>
-  </article>
-
-  <!-- 4 : battery -->
-  <article class="cr cr-bat">
-    <h2><bdi>5–6</bdi> ساعات<br>ديال الاستعمال</h2>
-    <div class="bt-gauge" aria-hidden="true">
-      <svg viewBox="0 0 120 120"><circle class="g0" cx="60" cy="60" r="52"/><circle class="g1" cx="60" cy="60" r="52"/></svg>
-      <div><b dir="ltr">5–6</b><small>ساعات</small></div>
-    </div>
-    <p class="cr-note">تقريباً، حسب الاستعمال. وعلبة الشحن معاك باش تعاود تشارجي</p>
-  </article>
+<section class="sec ep-gal" aria-label="المنتج">
+  <h2 class="ep-h">فالحياة اليومية</h2>
+  <figure class="ep-rv "><img src="images/tram.webp" width="1000" height="1250" alt="واحد كيسمع السماعات فالطرامواي" loading="lazy" decoding="async"></figure>
+  <figure class="ep-rv "><img src="images/cafe.webp" width="1000" height="1250" alt="وحدة خدامة فالكافي بالسماعات" loading="lazy" decoding="async"></figure>
+  <figure class="ep-rv "><img src="images/call.webp" width="1000" height="1250" alt="جاوب على المكالمات بلا ما تحيد التيليفون" loading="lazy" decoding="async"></figure>
+  <a href="#order" class="btn btn-glow ep-cta" data-cta="gal1">اطلب العرض دابا</a>
 </section>
 
-<section class="sec">
-  <h2>شنو غادي تلقى فالباك</h2>
-  <ul class="ep-feat">
-    <li><span class="ep-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10-5 5V2l5 5L7 17"/></svg></span><div><b>بلوتوث بلا خيوط</b><p>كتربطها بالتيليفون وكتسمع بحرية.</p></div></li>
-    <li><span class="ep-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v4"/></svg></span><div><b>ميكروفون للمكالمات</b><p>جاوب على المكالمات بلا ما تحيد التيليفون من جيبك.</p></div></li>
-    <li><span class="ep-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11V5a2 2 0 0 1 4 0v6"/><path d="M13 9a2 2 0 0 1 4 0v4a7 7 0 0 1-7 7c-3 0-4-1.5-6-5l-1-2a2 2 0 0 1 3-1l1 1"/></svg></span><div><b>تحكم باللمس</b><p>لمسة وحدة على السماعة باش تتحكم فالاستعمال.</p></div></li>
-    <li><span class="ep-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg></span><div><b>Android و iPhone</b><p>كتخدم مع جوج عبر Bluetooth.</p></div></li>
-    <li><span class="ep-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="7" width="18" height="10" rx="2"/><path d="M22 11v2M6 10v4M10 10v4"/></svg></span><div><b>5–6 ساعات ديال الاستعمال</b><p>تقريباً، حسب الاستعمال.</p></div></li>
-    <li><span class="ep-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="8" width="16" height="13" rx="4"/><path d="M4 12h16M8 8V6a4 4 0 0 1 8 0v2"/></svg></span><div><b>علبة شحن لكل مجموعة</b><p>كتحفظ السماعات وكتشارجيهم.</p></div></li>
-  </ul>
+<section class="sec alt ep-gal" aria-label="المميزات">
+  <h2 class="ep-h">كلشي اللي محتاج</h2>
+  <figure class="ep-rv "><img src="images/features.webp" width="1000" height="1000" alt="بلوتوث، ميكروفون للمكالمات، تحكم باللمس، Android و iPhone" loading="lazy" decoding="async"></figure>
+  <figure class="ep-rv "><img src="images/compat.webp" width="1000" height="1000" alt="كتخدم مع Android و iPhone" loading="lazy" decoding="async"></figure>
+  <figure class="ep-rv "><img src="images/battery.webp" width="1000" height="1250" alt="5–6 ساعات ديال الاستعمال حسب الاستخدام" loading="lazy" decoding="async"></figure>
+</section>
+
+<section class="sec ep-gal" aria-label="الباك">
+  <h2 class="ep-h">شنو كاين فالباك</h2>
+  <figure class="ep-rv "><img src="images/pack-info.webp" width="1000" height="1250" alt="المجموعة 1 + المجموعة 2، جوج مجموعات كاملة بـ179 درهم" loading="lazy" decoding="async"></figure>
+  <figure class="ep-rv "><img src="images/gift.webp" width="1000" height="1250" alt="وحدة ليك ووحدة لعزيز عليك، 179 درهم" loading="lazy" decoding="async"></figure>
+  <a href="#order" class="btn btn-glow ep-cta" data-cta="gal2">اطلب العرض دابا</a>
+</section>
+
+<section class="sec ep-carwrap" aria-label="تفاصيل">
+  <h2 class="ep-h">تفاصيل أكثر</h2>
+  <div class="car" tabindex="0">
+    <figure class="cf"><img src="images/rest.webp" width="1000" height="1000" alt="جوج علب ديال السماعات مفتوحين" loading="lazy" decoding="async"></figure>
+    <figure class="cf"><img src="images/detail.webp" width="1000" height="1000" alt="تفاصيل السماعة والعلبة" loading="lazy" decoding="async"></figure>
+    <figure class="cf"><img src="images/story.webp" width="800" height="1421" alt="عرض باك 2، جوج سماعات بثمن وحدة" loading="lazy" decoding="async"></figure>
+  </div>
 </section>
 
 <section class="sec alt">
@@ -495,7 +451,7 @@ body,button,input,textarea,select,output{font-family:'Noto Kufi Arabic',system-u
 </div>
 <div class="scrim" id="scrim" hidden></div>
 <script src="assets/app.js?v=5"></script>
-<script src="assets/creatives.js?v=1" defer></script>
+<script src="assets/creatives.js?v=4" defer></script>
 <script src="assets/agent.js" defer></script>
 </body>
 </html>
