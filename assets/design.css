@@ -485,3 +485,43 @@ html:not(.no-js) .ep-rv{--p:0}
 .ep-offer.s2 .ep-up-list,.ep-offer.s2 .ep-up-btn,.ep-offer.s2 .ep-up-trust,.ep-offer.s2 .ep-back,.ep-offer.s2 .ep-up-skip{display:none !important}
 .ep-offer.s3 .ep-plat,.ep-offer.s3 .ep-q,.ep-offer.s3 .ep-up-s{display:none !important}
 .ep-back{display:block;margin:6px auto 0;background:none;border:0;color:#6b5a4d;font:inherit;font-size:13px;padding:8px;cursor:pointer}
+
+/* ===== PRO dark theme for the offer popup ===== */
+.ep-pop-box.ep-up{background:radial-gradient(120% 60% at 50% -10%,rgba(255,122,41,.28),transparent 60%),linear-gradient(180deg,#171033 0%,#0B1030 55%,#080B22 100%);color:#fff;border:1px solid rgba(255,255,255,.08);border-bottom:0;box-shadow:0 -20px 60px rgba(0,0,0,.55)}
+.ep-pop-box.ep-up::before{background:rgba(255,255,255,.22)}
+.ep-pop-box.ep-up h4{color:#fff;font-size:21px;letter-spacing:-.2px}
+.ep-pop-box.ep-up .ep-up-s,.ep-pop-box.ep-up .ep-q{color:#C9D2F5}
+.ep-pop-box.ep-up .ep-q{color:#fff;font-size:16px;text-align:center;margin:10px 0 12px}
+.ep-pop-box.ep-up .ep-pop-x{background:rgba(255,255,255,.1);color:#fff;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+/* stepper */
+.ep-pop-box.ep-up .ep-st li{color:#8e98c7}
+.ep-pop-box.ep-up .ep-st li::before{background:rgba(255,255,255,.14)}
+.ep-pop-box.ep-up .ep-st li i{background:#141a3d;border-color:rgba(255,255,255,.2);color:#8e98c7}
+.ep-pop-box.ep-up .ep-st li.on{color:#fff}
+.ep-pop-box.ep-up .ep-st li.on i{background:linear-gradient(135deg,#FF8A3D,#E4570C);border-color:#FFB070;color:#fff;box-shadow:0 0 0 4px rgba(255,138,61,.25),0 6px 16px rgba(228,87,12,.5)}
+.ep-pop-box.ep-up .ep-st li.dn i{background:#16A34A;border-color:#4ADE80}
+.ep-pop-box.ep-up .ep-st li.dn::before,.ep-pop-box.ep-up .ep-st li.on::before{background:linear-gradient(90deg,#16A34A,#4ADE80)}
+/* gift scene blends into sheet */
+.ep-pop-box.ep-up .gb-btn{background:none;margin:0 0 6px;overflow:visible}
+.ep-pop-box.ep-up .gb-scene{height:290px}
+.ep-pop-box.ep-up .gb-btn::after{content:"";position:absolute}
+/* platform picker */
+.ep-pop-box.ep-up .ep-plat{gap:12px}
+.ep-pop-box.ep-up .ep-plat-b{background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.14);color:#fff;padding:20px 8px;border-radius:20px;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);gap:10px}
+.ep-pop-box.ep-up .ep-plat-i{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;background:linear-gradient(135deg,rgba(255,138,61,.28),rgba(255,138,61,.08))}
+.ep-pop-box.ep-up .ep-plat-i svg{width:28px;height:28px;stroke:#FFB070}
+.ep-pop-box.ep-up .ep-plat-b b{font-size:17px}
+.ep-pop-box.ep-up .ep-plat-b:hover,.ep-pop-box.ep-up .ep-plat-b:focus-visible{border-color:#FF8A3D;background:rgba(255,138,61,.14);outline:none}
+/* pack card */
+.ep-pop-box.ep-up .ep-up-card.is-banner{border-color:rgba(255,200,120,.35);background:#0B1030;box-shadow:0 18px 40px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.04)}
+.ep-pop-box.ep-up .ep-up-card.is-banner.on{border-color:#4ADE80;box-shadow:0 0 0 3px rgba(74,222,128,.25),0 18px 40px rgba(0,0,0,.5)}
+.ep-pop-box.ep-up .ep-up-add{position:relative;overflow:hidden;background:linear-gradient(180deg,#FF8A3D,#E4570C);box-shadow:0 8px 20px rgba(228,87,12,.45)}
+.ep-pop-box.ep-up .ep-up-add::after,.ep-pop-box.ep-up .ep-up-btn::after{content:"";position:absolute;top:0;bottom:0;width:60px;left:-80px;background:linear-gradient(100deg,transparent,rgba(255,255,255,.45),transparent);transform:skewX(-20deg);animation:epShine 3s ease-in-out 1s infinite}
+@keyframes epShine{0%,60%{left:-80px}100%{left:130%}}
+.ep-pop-box.ep-up .ep-up-btn{position:sticky;overflow:hidden;background:linear-gradient(180deg,#FF8A3D,#E4570C);box-shadow:0 10px 24px rgba(228,87,12,.5),0 -16px 18px 6px #080B22;border:0}
+.ep-pop-box.ep-up .ep-up-trust{color:#C9D2F5;font-size:12.5px;margin-top:12px}
+.ep-pop-box.ep-up .ep-up-skip,.ep-pop-box.ep-up .ep-back{color:#8e98c7}
+.ep-pop-box.ep-up .ep-up-msg{color:#FFB070}
+.ep-pop-box.ep-up .ep-up-ok{color:#4ADE80 !important;font-size:19px}
+.ep-pop-box.ep-up .ep-up-tick{box-shadow:0 0 0 8px rgba(74,222,128,.18),0 10px 30px rgba(22,163,74,.5)}
+@media (prefers-reduced-motion:reduce){.ep-up-add::after,.ep-up-btn::after{animation:none !important}}
