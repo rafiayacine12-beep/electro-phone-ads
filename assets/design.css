@@ -316,3 +316,26 @@ html:not(.no-js) .ep-rv{--p:0}
 .ep-deal .btn-glow:active{box-shadow:0 4px 0 -2px #A83A05}
 .ep-deal .ep-pr{color:#FFB347}
 .free{color:var(--ok) !important}
+
+/* ===== header ===== */
+@keyframes tick{0%{opacity:0;transform:translateY(9px)}5%,29%{opacity:1;transform:none}34%,100%{opacity:0;transform:translateY(-9px)}}
+.s-top{position:relative;display:block;height:34px;padding:0;overflow:hidden;background:var(--o);color:#fff;font-size:13px;font-weight:700}
+.s-top .t{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;animation:tick 9s ease-in-out infinite}
+.s-top .t2{animation-delay:3s}.s-top .t3{animation-delay:6s}
+.s-head{position:sticky;top:0;z-index:25;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 16px;background:rgba(255,255,255,.92);-webkit-backdrop-filter:saturate(1.4) blur(12px);backdrop-filter:saturate(1.4) blur(12px);border-bottom:1.5px solid transparent;transition:box-shadow .25s,border-color .25s}
+.s-head.stuck{box-shadow:0 8px 22px rgba(36,20,10,.08);border-color:var(--line)}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;direction:ltr;color:var(--ink)}
+.logo{flex:none;width:40px;height:40px;border-radius:13px;background:linear-gradient(145deg,#FF8A3D,#DB4F0B);display:grid;place-items:center;box-shadow:0 6px 14px rgba(219,79,11,.35)}
+.logo svg{width:26px;height:26px}
+.bn{display:flex;flex-direction:column;line-height:1.15;text-align:start}
+.bn b{font-size:19px;font-weight:800;letter-spacing:-.3px;color:var(--ink)}
+.bn b i{font-style:normal;color:var(--o)}
+.bn small{margin-top:2px;font-size:11.5px;font-weight:600;color:var(--mut);direction:rtl}
+.hd-act{display:flex;align-items:center;gap:8px}
+.hd-call{width:42px;height:42px;border-radius:50%;border:1.5px solid var(--line);background:#fff;display:grid;place-items:center}
+.hd-call svg{width:20px;height:20px;fill:none;stroke:var(--o);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.hd-cta{display:inline-flex;align-items:center;height:42px;padding:0 18px;border-radius:999px;background:var(--o);color:#fff;font-weight:800;font-size:14.5px;text-decoration:none;box-shadow:0 5px 0 -2px #A83A05}
+.hd-cta:active{transform:translateY(2px);box-shadow:0 2px 0 -2px #A83A05}
+@media (prefers-reduced-motion:reduce){.s-top .t{animation:none}.s-top .t1{opacity:1}}
+.s-head .brand{display:flex;animation:none}
+.s-head .brand b{color:inherit}

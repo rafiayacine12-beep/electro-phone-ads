@@ -55,6 +55,10 @@
     nio.observe(nums);
   }
 
+  /* --- header: shadow once scrolled --- */
+  var hd = $("#hd");
+  if (hd) { var hs = function () { hd.classList.toggle("stuck", window.scrollY > 40); }; window.addEventListener("scroll", hs, { passive: true }); hs(); }
+
   /* --- order form: progress + delivery estimate --- */
   var form = $("#form"), bar = $(".ep-prog i"), lab = $(".ep-prog-t"), eta = $("#ep-eta");
   var DAYS = ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
