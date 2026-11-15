@@ -94,7 +94,7 @@
     upBox.textContent = "";
     var xb = el("button", "ep-pop-x", "×"); xb.type = "button"; xb.setAttribute("aria-label", "سد"); xb.addEventListener("click", closePop); upBox.appendChild(xb);
     upBox.appendChild(el("h4", "", hasPlat ? "عندنا ليك باك بثمن واعر" : "قبل ما تمشي، شوف هاد العروض"));
-    upBox.appendChild(el("p", "ep-up-s", hasPlat ? "كتزاد لنفس الطلبية، والتوصيل مجاني، وكتخلّص عند الاستلام." : "كتزاد لنفس الطلبية وكتخلّص كلشي عند الاستلام."));
+    upBox.appendChild(el("p", "ep-up-s", hasPlat ? "كتزاد لنفس الطلبية، التوصيل مجاني وكتخلّص عند الاستلام." : "كتزاد لنفس الطلبية وكتخلّص كلشي عند الاستلام."));
     var plat = null, list = el("div", "ep-up-list");
     if (hasPlat) {
       upBox.appendChild(el("p", "ep-q", "شنو نوع التيليفون ديالك؟"));
@@ -108,11 +108,11 @@
     }
     upBox.appendChild(list);
     var btn = el("button", "btn btn-glow ep-up-btn", "اختار شي حاجة"); btn.type = "button"; btn.disabled = true;
-    var skip = el("button", "ep-up-skip", "لا، شكراً"); skip.type = "button";
+    var skip = el("button", "ep-up-skip", "لا شكراً، غير الطلبية ديالي"); skip.type = "button";
     var msg = el("p", "ep-up-msg"); msg.setAttribute("role", "status");
     function recalc() {
       var n = 0, t = 0; items.forEach(function (i) { if (picked[i.id]) { n++; t += i.price; } });
-      btn.hidden = hasPlat && !n; btn.disabled = !n; btn.textContent = n ? "أضف للطلب (+" + t + " درهم)" : "اختار شي حاجة";
+      btn.hidden = hasPlat && !n; btn.disabled = !n; btn.textContent = n ? "زيدو لطلبيتي (+" + t + " درهم)" : "اختار شي حاجة";
     }
     function setPicked(i, on) {
       picked[i.id] = on; var card = cards[i.id]; card.classList.toggle("on", on); card.setAttribute("aria-pressed", on ? "true" : "false");
@@ -142,7 +142,7 @@
         });
       });
     }
-    upBox.appendChild(btn); upBox.appendChild(msg); upBox.appendChild(skip);
+    upBox.appendChild(btn); if (hasPlat) upBox.appendChild(el("p", "ep-up-trust", "بلا توصيل إضافي · الدفع عند الاستلام · تقدر تلغيه قبل التوصيل")); upBox.appendChild(msg); upBox.appendChild(skip);
     skip.addEventListener("click", closePop);
     recalc();
     btn.addEventListener("click", function () {
@@ -168,8 +168,8 @@
     var nodes = [].slice.call(upBox.children).filter(function (n) { return n !== xb; });
     var offer = el("div", "ep-offer"); nodes.forEach(function (n) { offer.appendChild(n); });
     var gift = el("div", "ep-gift");
-    gift.appendChild(el("h4", "", "عندك مفاجأة ليك"));
-    gift.appendChild(el("p", "ep-up-s", "دغط على الهدية باش تفتحها"));
+    gift.appendChild(el("h4", "", "عندك مفاجأة ليك 🎁"));
+    gift.appendChild(el("p", "ep-up-s", "دغط على الهدية، هاد العرض كيبان غير دابا"));
     var gbtn = el("button", "gb-btn"); gbtn.type = "button"; gbtn.setAttribute("aria-label", "افتح الهدية"); gbtn.innerHTML = GIFT_HTML; gift.appendChild(gbtn);
     var open = el("button", "btn btn-glow ep-up-btn ep-open", "افتح الهدية"); open.type = "button"; gift.appendChild(open);
     upBox.appendChild(gift); upBox.appendChild(offer);
