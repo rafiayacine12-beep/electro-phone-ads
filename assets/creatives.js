@@ -138,7 +138,7 @@
           var p = b.getAttribute("data-p");
           $$(".ep-plat-b", plat).forEach(function (x) { var on = x === b; x.classList.toggle("on", on); x.setAttribute("aria-pressed", on ? "true" : "false"); });
           plats.forEach(function (i) { var show = i.platform === p; cards[i.id].hidden = !show; if (!show && picked[i.id]) setPicked(i, false); if (show) { cards[i.id].classList.remove("pop"); void cards[i.id].offsetWidth; cards[i.id].classList.add("pop"); } });
-          recalc();
+          recalc(); setStep(3);
         });
       });
     }
@@ -173,7 +173,23 @@
     var gbtn = el("button", "gb-btn"); gbtn.type = "button"; gbtn.setAttribute("aria-label", "افتح الهدية"); gbtn.innerHTML = GIFT_HTML; gift.appendChild(gbtn);
     var open = el("button", "btn btn-glow ep-up-btn ep-open", "افتح الهدية"); open.type = "button"; gift.appendChild(open);
     upBox.appendChild(gift); upBox.appendChild(offer);
-    function reveal() { gift.hidden = true; offer.hidden = false; offer.classList.add("rise"); }
+    var stepper = null, back = null;
+    if (hasPlat) {
+      stepper = el("ol", "ep-st"); stepper.setAttribute("aria-label", "المراحل");
+      ["الهدية", "التيليفون", "الباك"].forEach(function (t, n) { var li = el("li", "", ""); li.appendChild(el("i", "", String(n + 1))); li.appendChild(el("span", "", t)); stepper.appendChild(li); });
+      upBox.insertBefore(stepper, gift);
+      back = el("button", "ep-back", "← بدّل التيليفون"); back.type = "button"; back.addEventListener("click", function () { setStep(2); }); offer.appendChild(back);
+      offer.classList.add("s2");
+    }
+    function setStep(n) {
+      if (!stepper) return;
+      $$("li", stepper).forEach(function (li, k) { li.classList.toggle("on", k === n - 1); li.classList.toggle("dn", k < n - 1); });
+      offer.classList.toggle("s2", n === 2); offer.classList.toggle("s3", n === 3);
+      var h = $("h4", offer); if (h) h.textContent = n === 3 ? "هاد الباك ديالك" : "عندنا ليك باك بثمن واعر";
+      offer.classList.remove("rise"); void offer.offsetWidth; offer.classList.add("rise");
+    }
+    setStep(1);
+    function reveal() { gift.hidden = true; offer.hidden = false; setStep(2); }
     if (reduce) { reveal(); }
     else {
       offer.hidden = true; var opened = false;
